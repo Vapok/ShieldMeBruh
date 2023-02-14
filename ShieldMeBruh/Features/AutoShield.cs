@@ -365,6 +365,9 @@ public class AutoShield
     {
         public static void PerformReset(Player player)
         {
+            if (Player.m_localPlayer == null)
+                return;
+            
             player.UnequipItem(player.m_rightItem, false);
             player.UnequipItem(player.m_leftItem, false);
             OnResetEvent.Invoke(ShieldMeBruh.AutoShield, EventArgs.Empty);
