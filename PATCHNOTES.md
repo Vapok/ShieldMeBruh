@@ -1,6 +1,6 @@
 # Shield Me Bruh! Patchnotes
 
-# 1.0.2 - Bug Fixes
+# 1.0.2 - Bug Fix
 * Shield Icon resets on Death event.
 
 # 1.0.1 - Initial Release - Hotfix
