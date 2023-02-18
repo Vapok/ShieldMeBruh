@@ -1,16 +1,19 @@
 ﻿using HarmonyLib;
-using ShieldMeBruh.Features;
-using YamlDotNet.Serialization;
 
 namespace ShieldMeBruh.Patches;
 
 public static class InventoryGrid_Patches
 {
     [HarmonyPatch(typeof(InventoryGrid), nameof(InventoryGrid.UpdateGui))]
-    private static class InventoryGridUpdateGuiPatch
+    public static class InventoryGridUpdateGuiPatch
     {
         private static bool _initializedElement;
 
+        public static void ResetInitializedElement()
+        {
+            _initializedElement = false;
+        }
+        
         [HarmonyPriority(Priority.First)]
         private static void Prefix(InventoryGrid __instance, ref bool __state)
         {
@@ -34,12 +37,12 @@ public static class InventoryGrid_Patches
             }
         }
 
-        private static void Postfix(InventoryGrid __instance, ref bool __state)
+        private static void Postfix(InventoryGrid __instance, ref bool __state, bool __runOriginal)
         {
             if (!__instance.name.Equals("PlayerGrid"))
                 return;
 
-            if (!__state)
+            if (!__state || !__runOriginal)
                 return;
 
             ShieldMeBruh.Log.Debug("Inventory Grid needs to init.");

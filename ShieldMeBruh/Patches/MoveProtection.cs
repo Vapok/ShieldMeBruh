@@ -65,10 +65,10 @@ public static class MoveProtection
             }
         }
 
-        private static void Finalizer(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item, int x,
-            int y)
+        private static void Postfix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item, int x,
+            int y, bool __runOriginal )
         {
-            if (_movingWithDropItem)
+            if (_movingWithDropItem || !__runOriginal)
                 return;
 
             if (item == null)
@@ -95,9 +95,9 @@ public static class MoveProtection
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.RemoveItem), typeof(ItemDrop.ItemData))]
     private static class RemoveItemPatch
     {
-        private static void Postfix(Inventory __instance, ItemDrop.ItemData item)
+        private static void Postfix(Inventory __instance, ItemDrop.ItemData item, bool __runOriginal)
         {
-            if (item == null || __instance == null ||
+            if (item == null || !__runOriginal || __instance == null ||
                 ShieldMeBruh.AutoShield.CurrentElement == null || ShieldMeBruh.AutoShield.SelectedShield == null ||
                 _movingWithDropItem || _movingWithMoveItemToThis)
                 return;
@@ -163,10 +163,10 @@ public static class MoveProtection
             }
         }
 
-        private static void Finalizer(InventoryGrid __instance, Inventory fromInventory, ItemDrop.ItemData item,
-            int amount, Vector2i pos, ref bool __result)
+        private static void Postfix(InventoryGrid __instance, Inventory fromInventory, ItemDrop.ItemData item,
+            int amount, Vector2i pos, ref bool __result, bool __runOriginal)
         {
-            if (!__result)
+            if (!__result || !__runOriginal)
                 return;
 
             if (_reEnableShieldOnDropItem)

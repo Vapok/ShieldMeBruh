@@ -8,7 +8,7 @@ public static class Player_Patches
     [HarmonyPatch(typeof(Player), nameof(Player.SetLocalPlayer))]
     private static class HumanoidEquipItemPatch
     {
-        static void Finalizer(Player __instance)
+        static void Postfix(Player __instance)
         {
             AutoShield.ResetEvent.PerformReset(__instance);
         }

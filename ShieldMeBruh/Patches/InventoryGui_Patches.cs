@@ -7,9 +7,10 @@ public static class InventoryGui_Patches
     [HarmonyPatch(typeof(InventoryGui), nameof(InventoryGui.Show))]
     private static class ShowInventoryPatch
     {
-        private static void Finalizer(InventoryGui __instance)
+        private static void Postfix(InventoryGui __instance, bool __runOriginal)
         {
-            ShieldMeBruh.AutoShield.SetActiveInstance(__instance.m_playerGrid);
+            if (__runOriginal)
+                ShieldMeBruh.AutoShield.SetActiveInstance(__instance.m_playerGrid);
         }
     }
 }

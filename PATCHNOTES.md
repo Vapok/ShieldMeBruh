@@ -1,5 +1,8 @@
 # Shield Me Bruh! Patchnotes
 
+# 1.0.2 - Bug Fixes
+* Shield Icon resets on Death event.
+
 # 1.0.1 - Initial Release - Hotfix
 * Changed the way I'm detecting player being loaded.
 

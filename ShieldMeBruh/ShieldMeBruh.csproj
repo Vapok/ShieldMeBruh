@@ -91,6 +91,7 @@
     <ItemGroup>
         <Compile Include="Configuration\ConfigRegistry.cs" />
         <Compile Include="Features\AutoShield.cs" />
+        <Compile Include="Patches\DeathEvent.cs" />
         <Compile Include="Patches\FejdStartup.cs" />
         <Compile Include="Patches\Humanoid_Patches.cs" />
         <Compile Include="Patches\InventoryGrid_Patches.cs" />

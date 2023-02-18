@@ -192,6 +192,30 @@ public class AutoShield
         }
     }
 
+    public void SetShieldStatus(bool statusSetTo)
+    {
+        FeatureInitialized = EnableAutoShield.Value;
+        
+        if (EnableAutoShield.Value)
+        {
+            if (statusSetTo)
+            {
+                if (Player.m_localPlayer is { } player && CurrentElement != null && SelectedShield != null)
+                {
+                    //Validate Location and Item
+                    var itemAt = player.GetInventory().GetItemAt(CurrentElement.m_pos.x, CurrentElement.m_pos.y);
+
+                    if (itemAt != SelectedShield)
+                        statusSetTo = false;
+                }
+            }
+            if (CurrentElement != null)
+            {
+                GetShield(CurrentElement).enabled = statusSetTo;
+            }
+        }
+    }
+    
     public void SetEnabledStatus()
     {
         FeatureInitialized = EnableAutoShield.Value;
@@ -220,9 +244,11 @@ public class AutoShield
         SelectedShield = null;
     }
 
-    public void ApplyShieldToElement(InventoryGrid.Element selectedElement, ItemDrop.ItemData itemAt,
-        bool allowReset = false)
+    public void ApplyShieldToElement(InventoryGrid.Element selectedElement, ItemDrop.ItemData itemAt, bool allowReset = false)
     {
+        if (itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
+            return;
+        
         var img = GetShield(selectedElement);
 
         img.enabled = true;
@@ -264,46 +290,21 @@ public class AutoShield
     {
         Image img = null;
 
-        if (element == null)
+        if (element.m_go == null)
         {
-            ShieldMeBruh.Log.Debug("Element is null");
+            ShieldMeBruh.Log.Error("Element.m_go is null");
             return null;
         }
 
-        if (element.m_icon == null)
-        {
-            ShieldMeBruh.Log.Debug("Element.m_icon is null");
-        }
-        else
-        {
-            if (element.m_icon.transform == null)
-            {
-                ShieldMeBruh.Log.Debug("Element.m_icon.transform is null");
-            }
-            else
-            {
-                if (element.m_icon.transform.parent == null)
-                    ShieldMeBruh.Log.Debug("Element.m_icon.transform.parent is null");
-            }
-        }
-
-
-        
-        if (element.m_go == null) ShieldMeBruh.Log.Debug("Element.m_go is null");
-
-
         if (element.m_go.transform.childCount > 0)
         {
-            ShieldMeBruh.Log.Debug($"Parent Transform Name: {element.m_icon.transform.parent.name}");
             for (var i = 0; i < element.m_go.transform.childCount; i++)
             {
                 var childTransform = element.m_go.transform.GetChild(i);
-                ShieldMeBruh.Log.Debug($"Transform Name: {childTransform.name}");
-
                 var childImage = childTransform.GetComponent<Image>();
+                
                 if (childImage != null)
                 {
-                    ShieldMeBruh.Log.Debug($"Transform Name: {childTransform.name} - Image Name: {childImage.name}");
                     if (childImage.transform.name == "shield")
                         img = childImage;
                 }
@@ -322,7 +323,7 @@ public class AutoShield
 
     public void ResetAutoShieldOnPlayerAwake()
     {
-        ShieldMeBruh.Log.Warning($"Resetting Player Context");
+        ShieldMeBruh.Log.Debug($"Resetting Player Context");
         _activeInstance = null;
         CurrentElement = null;
         SelectedShield = null;

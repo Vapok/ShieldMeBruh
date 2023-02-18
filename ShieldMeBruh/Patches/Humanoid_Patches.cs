@@ -8,9 +8,9 @@ public static class Humanoid_Patches
     private static class HumanoidEquipItemPatch
     {
         private static void Postfix(Humanoid __instance, ItemDrop.ItemData item, ref bool __result,
-            ItemDrop.ItemData ___m_leftItem)
+            ItemDrop.ItemData ___m_leftItem, bool __runOriginal)
         {
-            if (__instance is not Player player || !ShieldMeBruh.AutoShield.FeatureInitialized)
+            if (__instance is not Player player || !ShieldMeBruh.AutoShield.FeatureInitialized || !__runOriginal)
                 return;
 
             if (__result && item.m_shared.m_itemType == ItemDrop.ItemData.ItemType.OneHandedWeapon &&
@@ -36,9 +36,9 @@ public static class Humanoid_Patches
     [HarmonyPatch(typeof(Humanoid), nameof(Humanoid.UnequipItem))]
     private static class HumanoidUnequipItemPatch
     {
-        private static void Postfix(Humanoid __instance, ItemDrop.ItemData item, ItemDrop.ItemData ___m_leftItem)
+        private static void Postfix(Humanoid __instance, ItemDrop.ItemData item, ItemDrop.ItemData ___m_leftItem, bool __runOriginal)
         {
-            if (__instance is not Player player || item == null || ___m_leftItem == null || !ShieldMeBruh.AutoShield.FeatureInitialized)
+            if (__instance is not Player player || item == null || ___m_leftItem == null || !ShieldMeBruh.AutoShield.FeatureInitialized || !__runOriginal)
                 return;
 
             if (ShieldMeBruh.AutoShield.EnableAutoUnequip.Value)
