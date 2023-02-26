@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using BepInEx.Configuration;
 using ShieldMeBruh.Configuration;
+using ShieldMeBruh.Patches;
 using UnityEngine;
 using UnityEngine.UI;
 using Vapok.Common.Managers.Configuration;
@@ -323,6 +324,9 @@ public class AutoShield
 
     public void ResetAutoShieldOnPlayerAwake()
     {
+        if (DeathEvent.DeathInProgress)
+            return;
+        
         ShieldMeBruh.Log.Debug($"Resetting Player Context");
         _activeInstance = null;
         CurrentElement = null;

@@ -1,5 +1,8 @@
 # Shield Me Bruh! Patchnotes
 
+# 1.0.4 - Tombstone Retrieval Error Message
+* Fixed: During Tombstone retrieval, an error would occur.
+
 # 1.0.3 - Defensive Equip Check
 * When equipping shields, make sure that the item isn't null to prevent downstream issues.
 * Reinforced possible null exceptions with null checks
