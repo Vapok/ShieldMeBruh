@@ -18,7 +18,10 @@ public static class Humanoid_Patches
                 if (ShieldMeBruh.AutoShield.SelectedShield != null)
                 {
                     var equipItem = player.m_inventory.GetItemAt(ShieldMeBruh.AutoShield.CurrentElement.m_pos.x, ShieldMeBruh.AutoShield.CurrentElement.m_pos.y);
-                    player.EquipItem(equipItem);
+                    if (equipItem != null && equipItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield)
+                    {
+                        player.EquipItem(equipItem);                    
+                    }
                 }
                 else
                 {
@@ -27,7 +30,10 @@ public static class Humanoid_Patches
                     if (savedData.SavedElement.x >= 0 && savedData.SavedElement.y >= 0)
                     {
                         var equipItem = player.m_inventory.GetItemAt(savedData.SavedElement.x, savedData.SavedElement.y);
-                        player.EquipItem(equipItem);
+                        if (equipItem != null && equipItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield)
+                        {
+                            player.EquipItem(equipItem);                    
+                        }
                     }
                 }
         }

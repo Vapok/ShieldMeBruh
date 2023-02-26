@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using ShieldMeBruh.Features;
 
 namespace ShieldMeBruh.Patches;
 
@@ -20,18 +19,28 @@ public static class DeathEvent
     {
         private static void Postfix(TombStone __instance, bool __runOriginal)
         {
+            if (Game.instance == null || __instance == null)
+                return;
+            
             if (__instance.IsOwner() && Player.m_localPlayer is { } player && __runOriginal)
             {
-                var name = Game.instance.GetPlayerProfile().GetName();
+                var name = Game.instance.GetPlayerProfile()?.GetName();
+                
+                if (name == null || __instance.m_container == null)
+                    return;
                 
                 if (__instance.m_container.m_name.Equals(name))
                 {
-                    var savedElementVector = ShieldMeBruh.AutoShield.GetShieldSaveData().SavedElement;
+                    var savedElementVector = ShieldMeBruh.AutoShield.GetShieldSaveData()?.SavedElement;
 
-                    if (savedElementVector.x >= 0 && savedElementVector.y >= 0)
+                    if (savedElementVector == null)
+                        return;
+                    
+                    if (savedElementVector.Value.x >= 0 && savedElementVector.Value.y >= 0)
                     {
-                        var savedItem = player.GetInventory().GetItemAt(savedElementVector.x, savedElementVector.y);
-                        var savedElement = ShieldMeBruh.AutoShield.GetActiveInstance().GetElement(savedElementVector.x, savedElementVector.y, player.GetInventory().m_width);
+                        var savedItem = player.GetInventory().GetItemAt(savedElementVector.Value.x, savedElementVector.Value.y);
+                        var savedElement = ShieldMeBruh.AutoShield.GetActiveInstance().GetElement(savedElementVector.Value.x, savedElementVector.Value.y, player.GetInventory().m_width);
+                        
                         if (savedElement != null && savedItem != null)
                         {
                             if (savedItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield)
