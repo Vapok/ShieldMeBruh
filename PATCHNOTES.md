@@ -1,5 +1,10 @@
 # Shield Me Bruh! Patchnotes
 
+# 1.0.5 - Valheim 0.214.2 and BepInEx 5.4.21 Updates
+* Updates to Valheim 0.214.2
+* Updates to BepInEx 5.4.21
+* Various Clean Up
+
 # 1.0.4 - Tombstone Retrieval Error Message
 * Fixed: During Tombstone retrieval, an error would occur.
 
