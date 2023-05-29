@@ -39,13 +39,13 @@
             <HintPath>..\..\References\BepInEx\5.4.2100\BepInEx\core\0Harmony.dll</HintPath>
         </Reference>
         <Reference Include="assembly_guiutils">
-            <HintPath>..\..\References\Valheim\0.214.2\assembly_guiutils_publicized.dll</HintPath>
+            <HintPath>..\..\References\Valheim\0.216.7\assembly_guiutils_publicized.dll</HintPath>
         </Reference>
         <Reference Include="assembly_utils">
-            <HintPath>..\..\References\Valheim\0.214.2\assembly_utils_publicized.dll</HintPath>
+            <HintPath>..\..\References\Valheim\0.216.7\assembly_utils_publicized.dll</HintPath>
         </Reference>
         <Reference Include="assembly_valheim">
-            <HintPath>..\..\References\Valheim\0.214.2\assembly_valheim_publicized.dll</HintPath>
+            <HintPath>..\..\References\Valheim\0.216.7\assembly_valheim_publicized.dll</HintPath>
         </Reference>
         <Reference Include="BepInEx">
             <HintPath>..\..\References\BepInEx\5.4.2100\BepInEx\core\BepInEx.dll</HintPath>
@@ -122,7 +122,7 @@
         <Exec Command="xcopy &quot;M:\Code\VapokModBase\$(ProjectName)\Translations\*.json&quot; &quot;M:\Code\VapokModBase\Releases\$(ProjectName)-Vapok\plugins\Translations\&quot; /q /y /i" />
         <Exec Command="xcopy &quot;M:\Code\VapokModBase\$(ProjectName)\LICENSE.md&quot; &quot;M:\Code\VapokModBase\Releases\$(ProjectName)-Vapok\&quot; /q /y /i" />
         <Exec Command="xcopy &quot;M:\Code\VapokModBase\$(ProjectName)\manifest.json&quot; &quot;M:\Code\VapokModBase\Releases\$(ProjectName)-Vapok\&quot; /q /y /i" />
-        <Exec Command="xcopy &quot;M:\Code\VapokModBase\$(ProjectName)\PATCHNOTES.md&quot; &quot;M:\Code\VapokModBase\Releases\$(ProjectName)-Vapok\&quot; /q /y /i" />
+        <Exec Command="xcopy &quot;M:\Code\VapokModBase\$(ProjectName)\CHANGELOG.md&quot; &quot;M:\Code\VapokModBase\Releases\$(ProjectName)-Vapok\&quot; /q /y /i" />
         <Exec Command="xcopy &quot;M:\Code\VapokModBase\$(ProjectName)\README.md&quot; &quot;M:\Code\VapokModBase\Releases\$(ProjectName)-Vapok\&quot; /q /y /i" />
         <Exec Command="xcopy &quot;M:\Code\VapokModBase\$(ProjectName)\icon.png&quot; &quot;M:\Code\VapokModBase\Releases\$(ProjectName)-Vapok\&quot; /q /y /i" />
     </Target>
