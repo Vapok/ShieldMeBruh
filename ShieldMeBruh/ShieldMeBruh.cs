@@ -20,7 +20,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     //Module Constants
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "1.0.5";
+    private const string _version = "1.0.6";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 

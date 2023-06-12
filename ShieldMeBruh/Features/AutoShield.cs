@@ -189,7 +189,7 @@ public class AutoShield
             ResetCurrentSheildElement();
             ApplyShieldToElement(selectedElement, itemAt, true);
 
-            if (oldShield != null && oldShield.m_equiped) player.EquipItem(newShield);
+            if (oldShield != null && oldShield.m_equipped) player.EquipItem(newShield);
         }
     }
 
