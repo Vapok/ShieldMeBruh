@@ -1,5 +1,8 @@
 # Shield Me Bruh! Patchnotes
 
+# 1.0.6 - Valheim 0.216.9
+* Updates to Valheim 0.216.9
+
 # 1.0.5 - Valheim 0.214.2 and BepInEx 5.4.21 Updates
 * Updates to Valheim 0.214.2
 * Updates to BepInEx 5.4.21
