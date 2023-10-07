@@ -1,9 +1,9 @@
 {
   "name": "ShieldMeBruh",
-  "version_number": "1.0.6",
+  "version_number": "1.0.8",
   "website_url": "https://github.com/Vapok/ShieldMeBruh",
   "description": "A Valheim Quality of Life Mod that will auto equip a selected shield when a one-handed weapon is equipped. I need a shield! Shield me Bruh!",
   "dependencies": [
-    "denikson-BepInExPack_Valheim-5.4.2100"
+    "denikson-BepInExPack_Valheim-5.4.2200"
   ]
 }

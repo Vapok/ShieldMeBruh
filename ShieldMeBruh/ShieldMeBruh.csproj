@@ -36,53 +36,57 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="0Harmony">
-            <HintPath>..\..\References\BepInEx\5.4.2100\BepInEx\core\0Harmony.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\BepInEx\core\0Harmony.dll</HintPath>
         </Reference>
         <Reference Include="assembly_guiutils">
-            <HintPath>..\..\References\Valheim\0.217.5\assembly_guiutils_publicized.dll</HintPath>
+            <HintPath>..\..\References\Valheim\0.217.19\assembly_guiutils_publicized.dll</HintPath>
         </Reference>
         <Reference Include="assembly_utils">
-            <HintPath>..\..\References\Valheim\0.217.5\assembly_utils_publicized.dll</HintPath>
+            <HintPath>..\..\References\Valheim\0.217.19\assembly_utils_publicized.dll</HintPath>
         </Reference>
         <Reference Include="assembly_valheim">
-            <HintPath>..\..\References\Valheim\0.217.5\assembly_valheim_publicized.dll</HintPath>
+            <HintPath>..\..\References\Valheim\0.217.19\assembly_valheim_publicized.dll</HintPath>
         </Reference>
         <Reference Include="BepInEx">
-            <HintPath>..\..\References\BepInEx\5.4.2100\BepInEx\core\BepInEx.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\BepInEx\core\BepInEx.dll</HintPath>
         </Reference>
         <Reference Include="BepInEx.Harmony">
-            <HintPath>..\..\References\BepInEx\5.4.2100\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="ServerSync">
+          <HintPath>..\..\References\ServerSync\ServerSync.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Net.Http" />
         <Reference Include="System.Xml" />
         <Reference Include="UnityEngine">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.AnimationModule">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.AnimationModule.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.AnimationModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.AssetBundleModule">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.AssetBundleModule.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.AssetBundleModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.CoreModule.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.ImageConversionModule">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.ImageConversionModule.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.ImageConversionModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.IMGUIModule">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.IMGUIModule.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.IMGUIModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UI">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.UI.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.UI.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UIModule">
-            <HintPath>..\..\References\BepInEx\5.4.2100\unstripped_corlib\UnityEngine.UIModule.dll</HintPath>
+            <HintPath>..\..\References\BepInEx\5.4.2200\unstripped_corlib\UnityEngine.UIModule.dll</HintPath>
         </Reference>
-        <Reference Include="Vapok.Common">
-            <HintPath>..\..\References\Vapok.Common\Vapok.Common.dll</HintPath>
+        <Reference Include="Vapok.Valheim.Common, Version=0.217.24.0, Culture=neutral, processorArchitecture=MSIL">
+          <HintPath>..\packages\Vapok.Valheim.Common.1.4.21724\lib\net462\Vapok.Valheim.Common.dll</HintPath>
         </Reference>
         <Reference Include="YamlDotNet, Version=13.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
             <HintPath>..\packages\YamlDotNet.13.0.0\lib\net45\YamlDotNet.dll</HintPath>

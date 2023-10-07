@@ -1,5 +1,11 @@
 # Shield Me Bruh! Patchnotes
 
+# 1.0.8 - Valheim 0.217.24
+* Updates to Valheim 0.217.24
+
+# 1.0.7 - Valheim 0.217.14
+* Updates to Valheim 0.217.14
+
 # 1.0.6 - Valheim 0.216.9
 * Updates to Valheim 0.216.9
 
