@@ -1,5 +1,11 @@
 # Shield Me Bruh! Patchnotes
 
+# 1.0.9 - Valheim 0.217.28
+* Updates to Valheim 0.217.28
+
+<details>
+<summary><b>Changelog History</b> (<i>click to expand</i>)</summary>
+
 # 1.0.8 - Valheim 0.217.24
 * Updates to Valheim 0.217.24
 
@@ -34,3 +40,5 @@
 * Provides a secondary, configurable option to also automatically unequip the shield when the one-handed weapon is unequipped.
 * Client side only mod.
 * Lightweight, minimal overhead QoL Module
+
+</details>
