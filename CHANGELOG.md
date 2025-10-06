@@ -1,10 +1,13 @@
 # Shield Me Bruh! Patchnotes
 
-# 1.0.9 - Valheim 0.217.28
-* Updates to Valheim 0.217.28
+# 1.1.0 - Removed ServerSync - Updated to Jotunn
+* Updates to Valheim 0.221.4
 
 <details>
 <summary><b>Changelog History</b> (<i>click to expand</i>)</summary>
+
+# 1.0.9 - Valheim 0.217.28
+* Updates to Valheim 0.217.28
 
 # 1.0.8 - Valheim 0.217.24
 * Updates to Valheim 0.217.24

@@ -17,10 +17,10 @@ namespace ShieldMeBruh;
 [BepInPlugin(_pluginId, _displayName, _version)]
 public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
 {
-    //Module Constants
+    //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "1.0.9";
+    private const string _version = "1.1.0";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 
