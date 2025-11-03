@@ -15,12 +15,14 @@ using Vapok.Common.Managers.LocalizationManager;
 namespace ShieldMeBruh;
 
 [BepInPlugin(_pluginId, _displayName, _version)]
+[BepInDependency(Jotunn.Main.ModGuid)]
+[BepInDependency("com.ValheimModding.YamlDotNetDetector")]
 public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
 {
     //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "1.1.0";
+    private const string _version = "1.1.1";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 
