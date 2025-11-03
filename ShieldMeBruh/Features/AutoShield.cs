@@ -55,7 +55,7 @@ public class AutoShield
 
     private void RegisterConfigurationFile()
     {
-        EnableAutoShield = ConfigSyncBase.UnsyncedConfig("Local Config", "Enable Auto Shield", true,
+        ConfigSyncBase.UnsyncedConfig("Local Config", "Enable Auto Shield", true,
             new ConfigDescription(
                 "When enabled, selected shield will automatically equip when a one handed weapon is equipped.",
                 null,
@@ -63,7 +63,7 @@ public class AutoShield
 
         EnableAutoShield.SettingChanged += (_, _) => SetEnabledStatus();
 
-        EnableAutoUnequip = ConfigSyncBase.UnsyncedConfig("Local Config", "Enable Auto Unequip", true,
+        ConfigSyncBase.UnsyncedConfig("Local Config", "Enable Auto Unequip", true,
             new ConfigDescription(
                 "When enabled, when one handed weapon is unequipped, the marked equipped shield, will also unequip.",
                 null,
