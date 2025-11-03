@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using BepInEx.Configuration;
+using HarmonyLib;
 using ShieldMeBruh.Configuration;
 using ShieldMeBruh.Patches;
 using UnityEngine;
@@ -28,8 +29,8 @@ public class AutoShield
     public bool FeatureInitialized = false;
     public ItemDrop.ItemData SelectedShield;
 
-    public ConfigEntry<bool> EnableAutoShield { get; private set; }
-    public ConfigEntry<bool> EnableAutoUnequip { get; private set; }
+    public ConfigEntry<bool> EnableAutoShield;
+    public ConfigEntry<bool> EnableAutoUnequip;
     
     public AutoShield()
     {
@@ -58,7 +59,7 @@ public class AutoShield
             new ConfigDescription(
                 "When enabled, selected shield will automatically equip when a one handed weapon is equipped.",
                 null,
-                new ConfigurationManagerAttributes { Order = 1 }));
+                new ConfigurationManagerAttributes { Order = 1 }),ref EnableAutoShield);
 
         EnableAutoShield.SettingChanged += (_, _) => SetEnabledStatus();
 
@@ -66,19 +67,32 @@ public class AutoShield
             new ConfigDescription(
                 "When enabled, when one handed weapon is unequipped, the marked equipped shield, will also unequip.",
                 null,
-                new ConfigurationManagerAttributes { Order = 1 }));
+                new ConfigurationManagerAttributes { Order = 1 }),ref EnableAutoUnequip);
+    }
+    
+    public static Texture2D LoadImage(byte[] bytes)
+    {
+        var texture = new Texture2D(2, 2);
+    
+        // use reflection because NetStandard 2.1 is not compatible with .NET4.8 and this function is not available at compile time.
+        var loadImage = AccessTools.Method(typeof(ImageConversion), nameof(ImageConversion.LoadImage), new [] {typeof(Texture2D), typeof(byte[])});
+        var isSuccess = (bool) loadImage.Invoke(null, new object[]{texture, bytes});
+    
+        if (!isSuccess)
+            throw new Exception("Failed to load image data into texture from byte array");
+    
+        return texture;
     }
 
     public Sprite LoadSprite(string path, Rect size, Vector2? pivot = null, int units = 100)
     {
         if (pivot == null) pivot = new Vector2(0.5f, 0.5f);
 
-
         var assembly = Assembly.GetExecutingAssembly();
         var imageStream = assembly.GetManifestResourceStream(path);
 
-        var texture = new Texture2D((int)size.width, (int)size.height, TextureFormat.RGBAFloat, false);
-        texture.LoadImage(ReadToEnd(imageStream));
+        var imageData = ReadToEnd(imageStream);
+        var texture = LoadImage(imageData);
 
         if (texture == null) ShieldMeBruh.Log.Error("Missing Embedded Resource: " + path);
 
