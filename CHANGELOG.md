@@ -1,12 +1,16 @@
 # Shield Me Bruh! Patchnotes
 
-## 1.1.1 - Fixing Dedicated Server Config Syncing
-* A regression issue was introduced when switching to Jotunn preventing servers from dictating configs to clients.
-    * This has been resolved.
-* Appropriately added the BepInDependency Flags for graceful mod exit if missing dependencies.
+## 1.1.2 - Updating Dependencies
+* Updated to latest version of dependencies
 
 <details>
 <summary><b>Changelog History</b> (<i>click to expand</i>)</summary>
+
+## 1.1.1 - Fixing Dedicated Server Config Syncing
+* A regression issue was introduced when switching to Jotunn preventing servers from dictating configs to clients.
+  * This has been resolved.
+* Appropriately added the BepInDependency Flags for graceful mod exit if missing dependencies.
+
 # 1.1.0 - Removed ServerSync - Updated to Jotunn
 * Updates to Valheim 0.221.4
 

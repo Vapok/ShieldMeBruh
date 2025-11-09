@@ -5,12 +5,14 @@ using System.Reflection;
 using BepInEx;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Jotunn.Managers;
 using ShieldMeBruh.Configuration;
 using ShieldMeBruh.Features;
 using Vapok.Common.Abstractions;
 using Vapok.Common.Managers;
 using Vapok.Common.Managers.Configuration;
 using Vapok.Common.Managers.LocalizationManager;
+using Vapok.Common.Tools;
 
 namespace ShieldMeBruh;
 
@@ -22,7 +24,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "1.1.1";
+    private const string _version = "1.1.2";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 
@@ -46,14 +48,17 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
         //Waiting For Startup
         Waiter = new Waiting();
 
+        //Jotunn Localization
+        var localization = LocalizationManager.Instance.GetLocalization();
+
+        //Register Logger
+        LogManager.Init(PluginId,out _log);
+            
         //Initialize Managers
-        Localizer.Init();
+        Initializer.LoadManagers(localization);
 
         //Register Configuration Settings
         _config = new ConfigRegistry(_instance);
-
-        //Register Logger
-        LogManager.Init(PluginId, out _log);
 
         Localizer.Waiter.StatusChanged += InitializeModule;
 
