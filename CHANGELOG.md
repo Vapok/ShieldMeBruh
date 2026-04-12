@@ -1,5 +1,8 @@
 # Shield Me Bruh! Patchnotes
 
+## 1.1.4 - Hotfix
+* Fixed: When upgrading a shield, the Shield Icon gets unmapped, preventing the shield from equipping after upgrade unless it's manually middle-clicked again.
+
 ## 1.1.3 - Shield Logic Revamp + Updates
 * Redesigned Logic around Shield Management
   * Improved Performance and Frame Lag while in Inventory

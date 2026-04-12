@@ -37,7 +37,7 @@ public class ShieldMe : MonoBehaviour
         
         ShieldMeBruh.Log.Debug($"_mItem is null: {_mItem == null}");
         ApplyShieldToElement();
-        InvokeRepeating(nameof(UpdateShield),2f,2f);
+        InvokeRepeating(nameof(UpdateShield),1f,1f);
     }
 
     private void UpdateShield()
@@ -78,6 +78,16 @@ public class ShieldMe : MonoBehaviour
             _shieldImage = _shieldGo.GetComponent<Image>();
         
         return _shieldImage;
+    }
+
+    public ItemDrop.ItemData GetItem()
+    {
+        return _mItem;
+    }
+
+    public bool ShieldIsActive()
+    {
+        return _active;
     }
     
     public void ApplyShieldToElement(ItemDrop.ItemData itemOverride = null, bool allowReset = false)

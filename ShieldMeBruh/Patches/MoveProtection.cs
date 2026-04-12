@@ -11,9 +11,40 @@ public static class MoveProtection
     private static bool _movingWithMoveItemToThis;
     private static bool _movingWithDropItem;
     private static bool _reEnableShieldOnDropItem;
+    private static bool _doingCrafting;
     private static InventoryGrid.Element _futureElement;
     private static InventoryGrid.Element _oldElement;
 
+    [HarmonyPatch(typeof(InventoryGui), nameof(InventoryGui.DoCrafting), typeof(Player))]
+    private static class EnsureCraftingPatches
+    {
+        [UsedImplicitly]
+        private static void Prefix(InventoryGui __instance)
+        {
+            _doingCrafting = true;
+        }
+
+        [UsedImplicitly]
+        private static void Postfix(InventoryGui __instance)
+        {
+            _doingCrafting = false;
+
+            var originalItem = __instance.m_craftUpgradeItem;
+
+            if (originalItem.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield) return;
+            
+            var pos = originalItem.m_gridPos;
+            var currentShield = ShieldMe.Elements[pos];
+            var shieldItem = currentShield.GetItem();
+            
+            if (shieldItem != null && shieldItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield &&
+                currentShield.ShieldIsActive())
+                return;
+                
+            currentShield.ResetCurrentSheildElement();
+        }
+    }
+    
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.MoveItemToThis), typeof(Inventory), typeof(ItemDrop.ItemData))]
     private static class MoveItemPatch
     {
@@ -144,7 +175,7 @@ public static class MoveProtection
         {
             if (item == null || !__runOriginal || __instance == null ||
                 ShieldMeBruh.AutoShield.CurrentElement == null || ShieldMeBruh.AutoShield.SelectedShield == null ||
-                _movingWithDropItem || _movingWithMoveItemToThis)
+                _movingWithDropItem || _movingWithMoveItemToThis || _doingCrafting)
                 return;
 
             if (DeathEvent.DeathInProgress)
