@@ -1,4 +1,7 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
+using ShieldMeBruh.Components;
+using ShieldMeBruh.Extensions;
 
 namespace ShieldMeBruh.Patches;
 
@@ -14,6 +17,7 @@ public static class MoveProtection
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.MoveItemToThis), typeof(Inventory), typeof(ItemDrop.ItemData))]
     private static class MoveItemPatch
     {
+        [UsedImplicitly]
         private static void Prefix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item)
         {
             if (_movingWithDropItem)
@@ -27,7 +31,11 @@ public static class MoveProtection
 
             if (!__instance.m_name.Equals("Inventory"))
             {
-                ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
+                if (item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement?.m_pos)
+                {
+                    var oldShield = ShieldMe.Elements[ShieldMeBruh.AutoShield.CurrentElement.m_pos];
+                    oldShield.ResetCurrentSheildElement();
+                }
             }
         }
     }
@@ -35,6 +43,7 @@ public static class MoveProtection
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.MoveItemToThis), typeof(Inventory), typeof(ItemDrop.ItemData), typeof(int), typeof(int), typeof(int))]
     private static class MoveItemToThisPatch
     {
+        [UsedImplicitly]
         private static void Prefix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item, int x, int y)
         {
             if (_movingWithDropItem)
@@ -47,7 +56,7 @@ public static class MoveProtection
                 return;
 
             /* Two Scenarios:
-             * 1) SelectedShield is moving to another item. In this case, "item" is selected sheild, and pos is position of other item moving to.
+             * 1) SelectedShield is moving to another item. In this case, "item" is selected shield, and pos is position of other item moving to.
              * 2) another item, or shield, is moving to a position where SelectedItem is shield, which means it will move.
              *
              * Work: Detect both in this method.
@@ -94,6 +103,7 @@ public static class MoveProtection
             }
         }
 
+        [UsedImplicitly]
         private static void Postfix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item, int x,
             int y, bool __runOriginal )
         {
@@ -107,10 +117,13 @@ public static class MoveProtection
             {
                 var newItem = __instance.GetItemAt(_futureElement.m_pos.x, _futureElement.m_pos.y);
 
-                if (newItem != null && _oldElement != null && _futureElement != null) 
+                if (newItem != null && _oldElement != null && _futureElement != null)
                 {
-                    ShieldMeBruh.AutoShield.ResetCurrentSheildElement(_oldElement);
-                    ShieldMeBruh.AutoShield.ApplyShieldToElement(_futureElement, newItem);
+                    var oldShield = ShieldMe.Elements[_oldElement.m_pos];
+                    oldShield.ResetCurrentSheildElement();
+                    
+                    var shield = ShieldMe.Elements[_futureElement.m_pos];
+                    shield.ApplyShieldToElement(newItem);
                 }
                 _reEnableShield = false;
             }
@@ -126,6 +139,7 @@ public static class MoveProtection
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.RemoveItem), typeof(ItemDrop.ItemData))]
     private static class RemoveItemPatch
     {
+        [UsedImplicitly]
         private static void Postfix(Inventory __instance, ItemDrop.ItemData item, bool __runOriginal)
         {
             if (item == null || !__runOriginal || __instance == null ||
@@ -133,12 +147,24 @@ public static class MoveProtection
                 _movingWithDropItem || _movingWithMoveItemToThis)
                 return;
 
+            if (DeathEvent.DeathInProgress)
+            {
+                ShieldMeBruh.Log.Debug($"RemoveItemPatch: DeathInProgress: {DeathEvent.DeathInProgress}");
+                return;
+            }
+            
             if (item.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
                 return;
-
+            
             //if item.pos of item being removed equal CurrentElement.pos then reset.
-            if (item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.m_pos)
-                ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
+            if (item.m_gridPos != ShieldMeBruh.AutoShield.CurrentElement.m_pos) return;
+            
+            ShieldMeBruh.Log.Debug($"RemoveItemPatch: Removing an Item Start");
+            
+            var oldShield = ShieldMe.Elements[ShieldMeBruh.AutoShield.CurrentElement.m_pos];
+            oldShield.ResetCurrentSheildElement();
+            
+            ShieldMeBruh.Log.Debug($"RemoveItemPatch: Removing an Item Finished");
         }
     }
 
@@ -146,6 +172,7 @@ public static class MoveProtection
         typeof(int), typeof(Vector2i))]
     private static class DropItemPatch
     {
+        [UsedImplicitly]
         private static void Prefix(InventoryGrid __instance, Inventory fromInventory, ItemDrop.ItemData item,
             int amount, Vector2i pos)
         {
@@ -156,7 +183,7 @@ public static class MoveProtection
                 return;
 
             /* Two Scenarios:
-             * 1) SelectedShield is moving to another item. In this case, "item" is selected sheild, and pos is position of other item moving to.
+             * 1) SelectedShield is moving to another item. In this case, "item" is selected shield, and pos is position of other item moving to.
              * 2) another item, or shield, is moving to a position where SelectedItem is shield, which means it will move.
              *
              * Work: Detect both in this method.
@@ -164,6 +191,7 @@ public static class MoveProtection
 
             if (__instance.name.Equals("PlayerGrid"))
             {
+                ShieldMeBruh.Log.Debug($"DropItemPatch: Dropping an Item Start");
                 //Scenario 2:
                 if (item != ShieldMeBruh.AutoShield.SelectedShield)
                 {
@@ -198,9 +226,11 @@ public static class MoveProtection
 
                 _reEnableShieldOnDropItem = true;
                 _movingWithDropItem = true;
+                ShieldMeBruh.Log.Debug($"DropItemPatch: Dropping an Item Finished");
             }
         }
 
+        [UsedImplicitly]
         private static void Postfix(InventoryGrid __instance, Inventory fromInventory, ItemDrop.ItemData item,
             int amount, Vector2i pos, ref bool __result, bool __runOriginal)
         {
@@ -220,8 +250,11 @@ public static class MoveProtection
 
                 if (newItem != null && _oldElement != null && _futureElement != null)
                 {
-                    ShieldMeBruh.AutoShield.ResetCurrentSheildElement(_oldElement);
-                    ShieldMeBruh.AutoShield.ApplyShieldToElement(_futureElement, newItem);
+                    var oldShield = ShieldMe.Elements[ShieldMeBruh.AutoShield.CurrentElement.m_pos];
+                    oldShield.ResetCurrentSheildElement();
+
+                    var shield = ShieldMe.Elements[_futureElement.m_pos];
+                    shield.ApplyShieldToElement(newItem);
                 }
                 _reEnableShieldOnDropItem = false;
             }

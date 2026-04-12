@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 
 namespace ShieldMeBruh.Patches;
 
@@ -7,6 +8,7 @@ public static class Humanoid_Patches
     [HarmonyPatch(typeof(Humanoid), nameof(Humanoid.EquipItem))]
     private static class HumanoidEquipItemPatch
     {
+        [UsedImplicitly]
         private static void Postfix(Humanoid __instance, ItemDrop.ItemData item, ref bool __result,
             ItemDrop.ItemData ___m_leftItem, bool __runOriginal)
         {
@@ -42,6 +44,7 @@ public static class Humanoid_Patches
     [HarmonyPatch(typeof(Humanoid), nameof(Humanoid.UnequipItem))]
     private static class HumanoidUnequipItemPatch
     {
+        [UsedImplicitly]
         private static void Postfix(Humanoid __instance, ItemDrop.ItemData item, ItemDrop.ItemData ___m_leftItem, bool __runOriginal)
         {
             if (__instance is not Player player || item == null || ___m_leftItem == null || !ShieldMeBruh.AutoShield.FeatureInitialized || !__runOriginal)
@@ -49,7 +52,7 @@ public static class Humanoid_Patches
 
             if (ShieldMeBruh.AutoShield.EnableAutoUnequip.Value)
             {
-                ItemDrop.ItemData equipItem = null;
+                ItemDrop.ItemData equipItem;
 
                 if (ShieldMeBruh.AutoShield.CurrentElement == null && ShieldMeBruh.AutoShield.SelectedShield == null)
                 {
@@ -65,6 +68,9 @@ public static class Humanoid_Patches
                 }
                 else
                 {
+                    if (ShieldMeBruh.AutoShield.CurrentElement == null)
+                        return;
+                    
                     equipItem = player.m_inventory.GetItemAt(ShieldMeBruh.AutoShield.CurrentElement.m_pos.x, ShieldMeBruh.AutoShield.CurrentElement.m_pos.y);
 
                     if (item.m_shared.m_itemType == ItemDrop.ItemData.ItemType.OneHandedWeapon && ShieldMeBruh.AutoShield.SelectedShield != null &&

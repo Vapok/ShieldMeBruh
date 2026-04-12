@@ -1,4 +1,7 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
+using Jotunn;
+using ShieldMeBruh.Components;
 
 namespace ShieldMeBruh.Patches;
 
@@ -7,13 +10,6 @@ public static class InventoryGrid_Patches
     [HarmonyPatch(typeof(InventoryGrid), nameof(InventoryGrid.UpdateGui))]
     public static class InventoryGridUpdateGuiPatch
     {
-        private static bool _initializedElement;
-
-        public static void ResetInitializedElement()
-        {
-            _initializedElement = false;
-        }
-        
         [HarmonyPriority(Priority.First)]
         private static void Prefix(InventoryGrid __instance, ref bool __state)
         {
@@ -33,10 +29,10 @@ public static class InventoryGrid_Patches
                 ShieldMeBruh.Log.Debug($"Width {width} doesn't match {__instance.m_width}");
                 ShieldMeBruh.Log.Debug($"Height {height} doesn't match {__instance.m_height}");
                 __state = true;
-                _initializedElement = false;
             }
         }
 
+        [UsedImplicitly]
         private static void Postfix(InventoryGrid __instance, ref bool __state, bool __runOriginal)
         {
             if (!__instance.name.Equals("PlayerGrid"))
@@ -50,26 +46,9 @@ public static class InventoryGrid_Patches
             foreach (var element in __instance.m_elements)
             {
                 var gameObject = element.m_go;
-                var inputHandler = gameObject.GetComponentInChildren<UIInputHandler>();
-                inputHandler.m_onMiddleDown += ShieldMeBruh.AutoShield.OnMiddleClick;
-                ShieldMeBruh.Log.Debug($"Adding to element: X: {element.m_pos.x}  Y: {element.m_pos.y}");
-            }
-
-            if (!_initializedElement && Player.m_localPlayer.m_customData.ContainsKey("vapok.mods.shieldmebruh"))
-            {
-                
-                var savedElementVector = ShieldMeBruh.AutoShield.GetShieldSaveData().SavedElement;
-
-                if (savedElementVector.x >= 0 && savedElementVector.y >= 0)
-                {
-                    var savedElement =
-                        __instance.GetElement(savedElementVector.x, savedElementVector.y, __instance.m_width);
-                    var savedItem = __instance.m_inventory.GetItemAt(savedElementVector.x, savedElementVector.y);
-
-                    if (savedElement != null && savedItem != null) ShieldMeBruh.AutoShield.ApplyShieldToElement(savedElement, savedItem);
-                }
-
-                _initializedElement = true;
+                var shieldMe = gameObject.GetOrAddComponent<ShieldMe>();
+                shieldMe.SetGrid(__instance);
+                shieldMe.SetElement(element);
             }
         }
     }

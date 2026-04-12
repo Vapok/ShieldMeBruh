@@ -1,4 +1,4 @@
-﻿/* ShieldMeBruh by Vapok */
+/* ShieldMeBruh by Vapok */
 
 using System;
 using System.Reflection;
@@ -24,7 +24,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "1.1.2";
+    private const string _version = "1.1.3";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 
@@ -38,12 +38,14 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     public static ILogIt Log => _log;
     public static AutoShield AutoShield { get; private set; }
 
+    public static ShieldMeBruh m_instance;
+
     [UsedImplicitly]
     // This the main function of the mod. BepInEx will call this.
     private void Awake()
     {
         //I'm awake!
-        _instance = this;
+        m_instance = _instance = this;
 
         //Waiting For Startup
         Waiter = new Waiting();

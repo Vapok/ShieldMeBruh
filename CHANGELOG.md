@@ -1,10 +1,18 @@
 # Shield Me Bruh! Patchnotes
 
-## 1.1.2 - Updating Dependencies
-* Updated to latest version of dependencies
+## 1.1.3 - Shield Logic Revamp + Updates
+* Redesigned Logic around Shield Management
+  * Improved Performance and Frame Lag while in Inventory
+* Bug Fix: Shield Icon would drop off randomly
+* Updated to Valheim 0.221.12 references
+* Updated Vapok.Valheim.Common to 2.11.22112
+* Updated Jotunn to 2.29.0
 
 <details>
 <summary><b>Changelog History</b> (<i>click to expand</i>)</summary>
+
+## 1.1.2 - Updating Dependencies
+* Updated to latest version of dependencies
 
 ## 1.1.1 - Fixing Dedicated Server Config Syncing
 * A regression issue was introduced when switching to Jotunn preventing servers from dictating configs to clients.
