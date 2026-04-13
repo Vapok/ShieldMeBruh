@@ -31,6 +31,8 @@ public static class MoveProtection
 
             var originalItem = __instance.m_craftUpgradeItem;
 
+            if (originalItem == null) return;
+
             if (originalItem.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield) return;
             
             var pos = originalItem.m_gridPos;

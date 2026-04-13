@@ -1,5 +1,8 @@
 # Shield Me Bruh! Patchnotes
 
+## 1.1. - Hotfix
+* Fixed: When crafting a new item, NRE can occur. Fixing the NRE.
+
 ## 1.1.4 - Hotfix
 * Fixed: When upgrading a shield, the Shield Icon gets unmapped, preventing the shield from equipping after upgrade unless it's manually middle-clicked again.
 
