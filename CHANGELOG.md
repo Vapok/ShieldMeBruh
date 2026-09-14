@@ -1,5 +1,8 @@
 # Shield Me Bruh! Patchnotes
 
+## 2.0.1 - Bug Fix
+* Fixed an issue where using Quick Move (Ctrl + Click) on items into a container would remove the mark from the shield.
+
 ## 2.0.0 - Valheim 1.0+ Update
 * Updated code base to Valheim 1.0
 * Adjusted mechanics of Shield Marking

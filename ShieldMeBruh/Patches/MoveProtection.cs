@@ -27,7 +27,11 @@ public static class MoveProtection
 
             if (!__instance.m_name.Equals("Inventory"))
             {
-                ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
+                if (item == ShieldMeBruh.AutoShield.SelectedShield ||
+                    (ShieldMeBruh.AutoShield.CurrentElement != null && item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.Position))
+                {
+                    ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
+                }
             }
         }
     }
@@ -92,6 +96,14 @@ public static class MoveProtection
                 _reEnableShield = true;
                 _movingWithMoveItemToThis = true;
             }
+            else
+            {
+                if (item == ShieldMeBruh.AutoShield.SelectedShield ||
+                    (ShieldMeBruh.AutoShield.CurrentElement != null && item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.Position))
+                {
+                    ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
+                }
+            }
         }
 
         private static void Postfix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item, int x,
@@ -133,11 +145,14 @@ public static class MoveProtection
                 _movingWithDropItem || _movingWithMoveItemToThis)
                 return;
 
+            if (!__instance.m_name.Equals("Inventory"))
+                return;
+
             if (item.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
                 return;
 
             //if item.pos of item being removed equal CurrentElement.pos then reset.
-            if (item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.Position)
+            if (item == ShieldMeBruh.AutoShield.SelectedShield || item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.Position)
                 ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
         }
     }
