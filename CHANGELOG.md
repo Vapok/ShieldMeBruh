@@ -1,10 +1,15 @@
 # Shield Me Bruh! Patchnotes
 
-## 1.1.2 - Updating Dependencies
-* Updated to latest version of dependencies
+## 2.0.0 - Valheim 1.0+ Update
+* Updated code base to Valheim 1.0
+* Adjusted mechanics of Shield Marking
+  * Newly marked shield now auto equips if you mark a different shield and have a shield already equipped.
 
 <details>
 <summary><b>Changelog History</b> (<i>click to expand</i>)</summary>
+
+## 1.1.2 - Updating Dependencies
+* Updated to latest version of dependencies
 
 ## 1.1.1 - Fixing Dedicated Server Config Syncing
 * A regression issue was introduced when switching to Jotunn preventing servers from dictating configs to clients.

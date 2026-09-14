@@ -49,10 +49,10 @@ public static class InventoryGrid_Patches
             
             foreach (var element in __instance.m_elements)
             {
-                var gameObject = element.m_go;
+                var gameObject = element.gameObject;
                 var inputHandler = gameObject.GetComponentInChildren<UIInputHandler>();
                 inputHandler.m_onMiddleDown += ShieldMeBruh.AutoShield.OnMiddleClick;
-                ShieldMeBruh.Log.Debug($"Adding to element: X: {element.m_pos.x}  Y: {element.m_pos.y}");
+                ShieldMeBruh.Log.Debug($"Adding to element: X: {element.Position.x}  Y: {element.Position.y}");
             }
 
             if (!_initializedElement && Player.m_localPlayer.m_customData.ContainsKey("vapok.mods.shieldmebruh"))

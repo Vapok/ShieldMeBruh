@@ -52,7 +52,7 @@ public static class DeathEvent
                         if (player.GetInventory() == null)
                             return;
 
-                        InventoryGrid.Element savedElement = null;
+                        InventoryElement savedElement = null;
                         
                         if (ShieldMeBruh.AutoShield.GetActiveInstance() == null)
                         {

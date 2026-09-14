@@ -25,7 +25,7 @@ public class AutoShield
     private InventoryGrid _activeInstance;
 
     private Sprite _shield;
-    public InventoryGrid.Element CurrentElement;
+    public InventoryElement CurrentElement;
     public bool FeatureInitialized = false;
     public ItemDrop.ItemData SelectedShield;
 
@@ -181,8 +181,10 @@ public class AutoShield
 
         ShieldMeBruh.Log.Debug($"Item Name {itemAt.m_shared.m_name} of type {itemAt.m_shared.m_itemType}");
 
-
         if (itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield) return;
+
+        var shieldEquipped = player.m_leftItem != null && player.m_leftItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield;
+        var currentEquippedShield = shieldEquipped ? player.m_leftItem : null;
 
         var targetVector = new Vector2i(buttonPos.x, buttonPos.y);
         var selectedElement = _activeInstance.GetElement(buttonPos.x, buttonPos.y, _activeInstance.m_width);
@@ -190,20 +192,32 @@ public class AutoShield
         if (CurrentElement == null)
         {
             ApplyShieldToElement(selectedElement, itemAt, true);
+
+            if (shieldEquipped && currentEquippedShield != itemAt)
+            {
+                player.UnequipItem(currentEquippedShield);
+                player.EquipItem(itemAt);
+            }
         }
-        else if (CurrentElement.m_pos == targetVector)
+        else if (CurrentElement.Position == targetVector)
         {
             ResetCurrentSheildElement();
-        }
-        else if (CurrentElement.m_pos != targetVector)
-        {
-            var oldShield = _activeInstance.GetInventory().GetItemAt(CurrentElement.m_pos.x, CurrentElement.m_pos.y);
-            var newShield = itemAt;
 
+            if (shieldEquipped)
+            {
+                player.UnequipItem(currentEquippedShield);
+            }
+        }
+        else if (CurrentElement.Position != targetVector)
+        {
             ResetCurrentSheildElement();
             ApplyShieldToElement(selectedElement, itemAt, true);
 
-            if (oldShield != null && oldShield.m_equipped) player.EquipItem(newShield);
+            if (shieldEquipped && currentEquippedShield != itemAt)
+            {
+                player.UnequipItem(currentEquippedShield);
+                player.EquipItem(itemAt);
+            }
         }
     }
 
@@ -218,7 +232,7 @@ public class AutoShield
                 if (Player.m_localPlayer is { } player && CurrentElement != null && SelectedShield != null)
                 {
                     //Validate Location and Item
-                    var itemAt = player.GetInventory().GetItemAt(CurrentElement.m_pos.x, CurrentElement.m_pos.y);
+                    var itemAt = player.GetInventory().GetItemAt(CurrentElement.Position.x, CurrentElement.Position.y);
 
                     if (itemAt != SelectedShield)
                         statusSetTo = false;
@@ -248,7 +262,7 @@ public class AutoShield
             GetShield(CurrentElement).enabled = false;
     }
 
-    public void ResetCurrentSheildElement(InventoryGrid.Element selectedElement = null)
+    public void ResetCurrentSheildElement(InventoryElement selectedElement = null)
     {
         if (CurrentElement != null && selectedElement == null) GetShield(CurrentElement).enabled = false;
 
@@ -257,9 +271,15 @@ public class AutoShield
 
         CurrentElement = null;
         SelectedShield = null;
+
+        var savedData = new AutoShieldSaveData
+        {
+            SavedElement = new Vector2i(-1, -1)
+        };
+        SaveShieldSaveData(savedData);
     }
 
-    public void ApplyShieldToElement(InventoryGrid.Element selectedElement, ItemDrop.ItemData itemAt, bool allowReset = false)
+    public void ApplyShieldToElement(InventoryElement selectedElement, ItemDrop.ItemData itemAt, bool allowReset = false)
     {
         if (itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
             return;
@@ -275,8 +295,8 @@ public class AutoShield
         }
         else
         {
-            if ((CurrentElement.m_pos == selectedElement.m_pos && allowReset) || selectedElement.m_pos.x < 0 ||
-                selectedElement.m_pos.y < 0)
+            if ((CurrentElement.Position == selectedElement.Position && allowReset) || selectedElement.Position.x < 0 ||
+                selectedElement.Position.y < 0)
             {
                 GetShield(CurrentElement).enabled = false;
                 CurrentElement = null;
@@ -291,7 +311,7 @@ public class AutoShield
 
         var saveVector = new Vector2i(-1, -1);
 
-        if (CurrentElement != null) saveVector = new Vector2i(CurrentElement.m_pos.x, CurrentElement.m_pos.y);
+        if (CurrentElement != null) saveVector = new Vector2i(CurrentElement.Position.x, CurrentElement.Position.y);
 
         var savedData = new AutoShieldSaveData();
         savedData.SavedElement = saveVector;
@@ -301,21 +321,21 @@ public class AutoShield
         SetEnabledStatus();
     }
 
-    private Image GetShield(InventoryGrid.Element element)
+    private Image GetShield(InventoryElement element)
     {
         Image img = null;
 
-        if (element.m_go == null)
+        if (element.gameObject == null)
         {
-            ShieldMeBruh.Log.Error("Element.m_go is null");
+            ShieldMeBruh.Log.Error("Element gameObject is null");
             return null;
         }
 
-        if (element.m_go.transform.childCount > 0)
+        if (element.transform.childCount > 0)
         {
-            for (var i = 0; i < element.m_go.transform.childCount; i++)
+            for (var i = 0; i < element.transform.childCount; i++)
             {
-                var childTransform = element.m_go.transform.GetChild(i);
+                var childTransform = element.transform.GetChild(i);
                 var childImage = childTransform.GetComponent<Image>();
                 
                 if (childImage != null)
@@ -328,7 +348,7 @@ public class AutoShield
 
         if (img == null)
         {
-            ShieldMeBruh.Log.Debug($"Image Null: {element.m_go.transform.name}");
+            ShieldMeBruh.Log.Debug($"Image Null: {element.name}");
             img = CreateShieldedImage(element.m_icon, element.m_noteleport);
         }
 
@@ -351,10 +371,10 @@ public class AutoShield
     {
         var outputData = new AutoShieldSaveData()
         {
-            SavedElement = new Vector2i(-1,-1)
+            SavedElement = new Vector2i(-1, -1)
         };
 
-        if (Player.m_localPlayer.m_customData.ContainsKey("vapok.mods.shieldmebruh"))
+        if (Player.m_localPlayer != null && Player.m_localPlayer.m_customData.ContainsKey("vapok.mods.shieldmebruh"))
         {
             var deserializer = new DeserializerBuilder().Build();
 
@@ -369,6 +389,9 @@ public class AutoShield
 
     public void SaveShieldSaveData(AutoShieldSaveData savedData)
     {
+        if (Player.m_localPlayer == null)
+            return;
+
         var serializer = new SerializerBuilder().Build();
 
         var yaml = serializer.Serialize(savedData);
@@ -377,7 +400,6 @@ public class AutoShield
             Player.m_localPlayer.m_customData["vapok.mods.shieldmebruh"] = yaml;
         else
             Player.m_localPlayer.m_customData.Add("vapok.mods.shieldmebruh", yaml);
-
     }
     
     public static class ResetEvent

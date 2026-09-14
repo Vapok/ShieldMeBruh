@@ -8,8 +8,8 @@ public static class MoveProtection
     private static bool _movingWithMoveItemToThis;
     private static bool _movingWithDropItem;
     private static bool _reEnableShieldOnDropItem;
-    private static InventoryGrid.Element _futureElement;
-    private static InventoryGrid.Element _oldElement;
+    private static InventoryElement _futureElement;
+    private static InventoryElement _oldElement;
 
     [HarmonyPatch(typeof(Inventory), nameof(Inventory.MoveItemToThis), typeof(Inventory), typeof(ItemDrop.ItemData))]
     private static class MoveItemPatch
@@ -105,7 +105,7 @@ public static class MoveProtection
 
             if (_reEnableShield)
             {
-                var newItem = __instance.GetItemAt(_futureElement.m_pos.x, _futureElement.m_pos.y);
+                var newItem = __instance.GetItemAt(_futureElement.Position.x, _futureElement.Position.y);
 
                 if (newItem != null && _oldElement != null && _futureElement != null) 
                 {
@@ -137,7 +137,7 @@ public static class MoveProtection
                 return;
 
             //if item.pos of item being removed equal CurrentElement.pos then reset.
-            if (item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.m_pos)
+            if (item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.Position)
                 ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
         }
     }
@@ -216,7 +216,7 @@ public static class MoveProtection
 
             if (_reEnableShieldOnDropItem)
             {
-                var newItem = __instance.m_inventory.GetItemAt(_futureElement.m_pos.x, _futureElement.m_pos.y);
+                var newItem = __instance.m_inventory.GetItemAt(_futureElement.Position.x, _futureElement.Position.y);
 
                 if (newItem != null && _oldElement != null && _futureElement != null)
                 {
