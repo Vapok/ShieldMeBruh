@@ -6,6 +6,7 @@
 
 [![GitHub Release](https://img.shields.io/github/v/release/Vapok/ShieldMeBruh?include_prereleases&logo=github&style=for-the-badge)](https://github.com/Vapok/ShieldMeBruh/releases)
 [![Thunderstore Version](https://img.shields.io/thunderstore/v/Vapok/ShieldMeBruh?logo=thunderstore&style=for-the-badge)](https://thunderstore.io/c/valheim/p/Vapok/ShieldMeBruh/)
+[![Nexus Mods](https://img.shields.io/badge/Nexus_Mods-Available-da8e35?logo=nexusmods&style=for-the-badge)](https://www.nexusmods.com/valheim/mods/2272)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289da?logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/5YAJkRFBXt)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
