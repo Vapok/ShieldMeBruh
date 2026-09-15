@@ -1,63 +1,36 @@
-# Shield Me Bruh! Patchnotes
-
-## 2.0.1 - Bug Fix
-* Fixed an issue where using Quick Move (Ctrl + Click) on items into a container would remove the mark from the shield.
-
-## 2.0.0 - Valheim 1.0+ Update
-* Updated code base to Valheim 1.0
-* Adjusted mechanics of Shield Marking
-  * Newly marked shield now auto equips if you mark a different shield and have a shield already equipped.
+# 2.0.2 - Dependency & Compatibility Maintenance
+* **Dependency Updates**: Updated Jotunn and BepInEx runtime package bindings.
+* **Compatibility Maintenance**: Verified compatibility against the latest Valheim 1.0 release.
+* **Documentation Improvements**: Standardized README, user guides, and technical patch documentation.
 
 <details>
-<summary><b>Changelog History</b> (<i>click to expand</i>)</summary>
+<summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
 
-## 1.1.2 - Updating Dependencies
-* Updated to latest version of dependencies
+### 2.0.1 - Container Quick Move Mark Persistence Fix
+* Fixed: Resolved an issue where using Quick Move (<kbd>Ctrl</kbd> + Left Click) on items into a container would inadvertently clear the mark from a marked shield.
 
-## 1.1.1 - Fixing Dedicated Server Config Syncing
-* A regression issue was introduced when switching to Jotunn preventing servers from dictating configs to clients.
-  * This has been resolved.
-* Appropriately added the BepInDependency Flags for graceful mod exit if missing dependencies.
+### 2.0.0 - Valheim 1.0+ Update & Shield Marking Mechanics
+* Updated codebase for Valheim 1.0.
+* Adjusted shield marking mechanics: marking a new shield while holding a one-handed weapon now instantly auto-equips the newly marked shield.
+* Added visual icon badges on marked shields in player inventory.
 
-# 1.1.0 - Removed ServerSync - Updated to Jotunn
-* Updates to Valheim 0.221.4
+</details>
 
-## 1.0.9 - Valheim 0.217.28
-* Updates to Valheim 0.217.28
+<details>
+<summary><b>1.0 Changelog History (Valheim Early Access)</b> (<i>click to expand</i>)</summary>
 
-## 1.0.8 - Valheim 0.217.24
-* Updates to Valheim 0.217.24
+### 1.1.2 - Dependency Maintenance
+* Updated all dependencies to latest versions.
 
-## 1.0.7 - Valheim 0.217.14
-* Updates to Valheim 0.217.14
+### 1.1.1 - Dedicated Server Config Syncing Fix
+* Resolved an issue preventing dedicated servers from properly enforcing configuration settings on connected clients.
+* Added graceful dependency handling and notifications.
 
-## 1.0.6 - Valheim 0.216.9
-* Updates to Valheim 0.216.9
+### 1.1.0 - Valheim 0.221.4 & Unity Engine Updates
+* Updated for Valheim 0.221.4 and Unity runtime adjustments.
 
-## 1.0.5 - Valheim 0.214.2 and BepInEx 5.4.21 Updates
-* Updates to Valheim 0.214.2
-* Updates to BepInEx 5.4.21
-* Various Clean Up
-
-## 1.0.4 - Tombstone Retrieval Error Message
-* Fixed: During Tombstone retrieval, an error would occur.
-
-## 1.0.3 - Defensive Equip Check
-* When equipping shields, make sure that the item isn't null to prevent downstream issues.
-* Reinforced possible null exceptions with null checks
-* Ensure shield is removed when item is moved with Fast Item Transfer
-
-## 1.0.2 - Bug Fix
-* Shield Icon resets on Death event.
-
-## 1.0.1 - Initial Release - Hotfix
-* Changed the way I'm detecting player being loaded.
-
-## 1.0.0 - Initial Release
-
-* Provides an option to use the middle-mouse button on a Shield while browsing the inventory to select a shield that will be automatically equipped when a one-handed weapon is equipped.
-* Provides a secondary, configurable option to also automatically unequip the shield when the one-handed weapon is unequipped.
-* Client side only mod.
-* Lightweight, minimal overhead QoL Module
+### 1.0.0 - Initial Release of Shield Me Bruh!
+* Initial release of automatic shield pairing and auto-equipping when wielding one-handed weapons.
+* Implemented middle-click shield marking in player inventory.
 
 </details>
