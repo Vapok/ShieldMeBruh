@@ -63,9 +63,11 @@ Never get caught in battle with an empty off-hand! **Shield Me Bruh!** is a slee
 
 <div align="center">
 
-🇺🇸 **English** • 🇩🇪 **German** • 🇫🇷 **French** • 🇪🇸 **Spanish** • 🇨🇳 **Chinese** • 🇷🇺 **Russian**
+🇺🇸 **English** (Default)
 
 </div>
+
+*Want to help translate Shield Me Bruh? Community translations are welcome! Please submit a PR on [GitHub](https://github.com/Vapok/ShieldMeBruh) or stop by our [Discord](https://discord.gg/5YAJkRFBXt).*
 
 ---
 
