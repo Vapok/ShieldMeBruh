@@ -23,7 +23,7 @@ Never get caught in battle with an empty off-hand! **Shield Me Bruh!** is a slee
 
 <br>
 
-[![Survival Servers](https://raw.githubusercontent.com/Vapok/ShieldMeBruh/refs/heads/main/images/survivalservers_banner.png)](https://www.survivalservers.com/services/game_servers/valheim/?ref=vapok)
+[![Survival Servers](https://raw.githubusercontent.com/Vapok/ShieldMeBruh/main/images/survivalservers_banner.png)](https://www.survivalservers.com/services/game_servers/valheim/?ref=vapok)
 
 </div>
 
