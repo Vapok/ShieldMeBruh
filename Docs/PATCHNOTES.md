@@ -1,3 +1,7 @@
+# 2.0.5 - Updated README with Telemetry Information
+* **Documentation Update**: Updated the README.md with Anonymous Telemetry and Privacy section per request of mod stores.
+* **Vapok.Common Dependency Bump**: Updated internalized dependency to `Vapok.Valheim.Common` 3.9.1012.
+
 # 2.0.4 - Unified Splash Screen & Telemetry Controls
 * **Unified Startup Splash Screen & Telemetry**:
   * Updated `Vapok.Valheim.Common` dependency reference to `v3.5.1012`.
