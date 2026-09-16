@@ -1,3 +1,9 @@
+# 2.0.3 - Unified Splash Screen & Telemetry Controls
+* **Unified Startup Splash Screen & Telemetry**:
+  * Updated `Vapok.Valheim.Common` dependency reference to `v3.5.1012`.
+  * Registered mod metadata with centralized `ModSplashManager`.
+  * Added `ShowSplashOnStartup` and `Enable Anonymous Telemetry` configuration bindings to `ConfigRegistry`.
+
 # 2.0.2 - Dependency & Compatibility Maintenance
 * **Runtime & Dependency Updates**:
   * Synchronized package manifest and project references with Jotunn `2.30.0` and BepInEx `5.4.2350`.

@@ -12,6 +12,7 @@ using Vapok.Common.Abstractions;
 using Vapok.Common.Managers;
 using Vapok.Common.Managers.Configuration;
 using Vapok.Common.Managers.LocalizationManager;
+using Vapok.Common.Managers.Splash;
 using Vapok.Common.Tools;
 
 namespace ShieldMeBruh;
@@ -24,7 +25,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "2.0.2";
+    private const string _version = "2.0.3";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 
@@ -70,6 +71,14 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
         //Patch Harmony
         _harmony = new Harmony(Info.Metadata.GUID);
         _harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+        //Register Mod Splash Screen
+        ModSplashManager.Register(new ModSplashDossier(_instance)
+        {
+            Tagline = "A quality-of-life combat mod that automatically equips and manages shields during combat situations.",
+            ShowOnStartup = ConfigRegistry.ShowSplashOnStartup,
+            EnableTelemetry = ConfigRegistry.EnableTelemetry,
+        });
 
         //???
 

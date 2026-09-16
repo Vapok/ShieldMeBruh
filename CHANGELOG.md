@@ -1,10 +1,14 @@
-# 2.0.2 - Dependency & Compatibility Maintenance
-* **Dependency Updates**: Updated Jotunn and BepInEx runtime package bindings.
-* **Compatibility Maintenance**: Verified compatibility against the latest Valheim 1.0 release.
-* **Documentation Improvements**: Standardized README, user guides, and technical patch documentation.
+# 2.0.3 - Unified Splash Screen & Telemetry Controls
+* Added integration with unified Vapok.Common startup splash screen.
+* Added player configuration controls for startup splash screen visibility and anonymous usage telemetry.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
+
+### 2.0.2 - Dependency & Compatibility Maintenance
+* **Dependency Updates**: Updated Jotunn and BepInEx runtime package bindings.
+* **Compatibility Maintenance**: Verified compatibility against the latest Valheim 1.0 release.
+* **Documentation Improvements**: Standardized README, user guides, and technical patch documentation.
 
 ### 2.0.1 - Container Quick Move Mark Persistence Fix
 * Fixed: Resolved an issue where using Quick Move (<kbd>Ctrl</kbd> + Left Click) on items into a container would inadvertently clear the mark from a marked shield.

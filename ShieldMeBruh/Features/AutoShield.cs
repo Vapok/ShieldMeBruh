@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using BepInEx.Configuration;
@@ -25,6 +25,7 @@ public class AutoShield
     private InventoryGrid _activeInstance;
 
     private Sprite _shield;
+    public Sprite Shield => _shield;
     public InventoryElement CurrentElement;
     public bool FeatureInitialized = false;
     public ItemDrop.ItemData SelectedShield;
