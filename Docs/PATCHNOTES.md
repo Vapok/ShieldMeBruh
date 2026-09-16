@@ -1,4 +1,4 @@
-# 2.0.3 - Unified Splash Screen & Telemetry Controls
+# 2.0.4 - Unified Splash Screen & Telemetry Controls
 * **Unified Startup Splash Screen & Telemetry**:
   * Updated `Vapok.Valheim.Common` dependency reference to `v3.5.1012`.
   * Registered mod metadata with centralized `ModSplashManager`.
