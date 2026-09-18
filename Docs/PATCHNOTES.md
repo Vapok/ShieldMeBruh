@@ -1,3 +1,13 @@
+# 2.0.7 - Splash Window Updates & Valheim 1.0.14 Alignment
+* **Splash Window Updates**:
+  * Updated telemetry default to unchecked on first launch (Opt-In).
+  * Added Send Error Logs toggle (Opt-Out) to capture anonymous crash diagnostics and error reports.
+  * Added in-game scrollable Privacy Policy overlay with responsive mouse wheel support.
+  * Added interactive tooltip data disclaimers on checkbox hover.
+* **Valheim 1.0.14 Alignment**:
+  * Aligned publicized game assembly and UnityEngine references to Valheim 1.0.14.
+  * Updated internalized  dependency to 3.12.1014.
+
 # 2.0.6 - Jewelcrafting Font Compatibility
 * **Compatibility Fix**: Fixed issue where Jewelcrafting packages its own font which was overriding part of a vanilla font, causing the Splash screen to appear blank.
 * **Vapok.Common Dependency Bump**: Updated internalized dependency to `Vapok.Valheim.Common` 3.11.1012.
