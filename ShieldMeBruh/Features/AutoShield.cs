@@ -180,15 +180,22 @@ public class AutoShield
 
         if (itemAt == null) return;
 
-        ShieldMeBruh.Log.Debug($"Item Name {itemAt.m_shared.m_name} of type {itemAt.m_shared.m_itemType}");
+        var targetVector = new Vector2i(buttonPos.x, buttonPos.y);
+        var selectedElement = _activeInstance.GetElement(buttonPos.x, buttonPos.y, _activeInstance.m_width);
+
+        if (itemAt.m_shared.m_itemType == ItemDrop.ItemData.ItemType.OneHandedWeapon)
+        {
+            if (ShieldMeBruh.WeaponExclusion != null)
+            {
+                ShieldMeBruh.WeaponExclusion.ToggleExclusion(itemAt, selectedElement);
+            }
+            return;
+        }
 
         if (itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield) return;
 
         var shieldEquipped = player.m_leftItem != null && player.m_leftItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield;
         var currentEquippedShield = shieldEquipped ? player.m_leftItem : null;
-
-        var targetVector = new Vector2i(buttonPos.x, buttonPos.y);
-        var selectedElement = _activeInstance.GetElement(buttonPos.x, buttonPos.y, _activeInstance.m_width);
 
         if (CurrentElement == null)
         {

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 
 namespace ShieldMeBruh.Patches;
 
@@ -42,7 +42,13 @@ public static class InventoryGrid_Patches
             if (!__instance.name.Equals("PlayerGrid"))
                 return;
 
-            if (!__state || !__runOriginal)
+            if (!__runOriginal)
+                return;
+
+            if (ShieldMeBruh.WeaponExclusion != null)
+                ShieldMeBruh.WeaponExclusion.UpdateGridElements(__instance);
+
+            if (!__state)
                 return;
 
             ShieldMeBruh.Log.Debug("Inventory Grid needs to init.");

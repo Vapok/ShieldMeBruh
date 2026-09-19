@@ -25,7 +25,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "2.0.8";
+    private const string _version = "2.1.0";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 
@@ -38,6 +38,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     //Class Properties
     public static ILogIt Log => _log;
     public static AutoShield AutoShield { get; private set; }
+    public static WeaponExclusion WeaponExclusion { get; private set; }
 
     [UsedImplicitly]
     // This the main function of the mod. BepInEx will call this.
@@ -68,6 +69,8 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
         AutoShield.FeatureInitialized = true;
         AutoShield.ResetEvent.OnResetEvent += (_, _) => ResetAutoSheild();
 
+        WeaponExclusion = new WeaponExclusion();
+
         //Patch Harmony
         _harmony = new Harmony(Info.Metadata.GUID);
         _harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -88,6 +91,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     private void Start()
     {
         AutoShield.LoadAssets();
+        WeaponExclusion.LoadAssets();
     }
 
     private void Update()
@@ -105,6 +109,7 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     {
         _instance = null;
         AutoShield = null;
+        WeaponExclusion = null;
     }
 
     //Interface Properties

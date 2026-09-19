@@ -1,9 +1,15 @@
-# 2.0.8 - Dedicated Server AutoShield Reset Fix & Valheim 1.0.15 Alignment
-* **Dedicated Server AutoShield Reset Fix**: Added null-conditional invocation for `OnResetEvent` during `Player.SetLocalPlayer`, eliminating `NullReferenceException` crashes on dedicated servers when no client UI handlers are registered.
-* **Valheim 1.0.15 Alignment**: Updated all game assembly references and internalized `Vapok.Valheim.Common` 3.13.1015.
+# 2.1.0 - 1-Handed Weapon Exclusion & Red X Badges
+* **1-Handed Weapon Exclusion**: Added ability to middle-click any one-handed weapon (such as woodcutting axes) in your inventory to mark it as excluded from automatic shield deployment.
+* **Red X Visual Indicator**: Excluded weapons display a crisp red X badge in the inventory grid (matching the shield badge styling) that seamlessly follows the item across slot moves and swaps.
+* **Multi-Weapon Support**: Multiple one-handed weapons can be excluded simultaneously while retaining your single designated auto-equip shield.
+* **Configurable**: Added `Enable Weapon Exclusion` setting under `Local Config` to toggle the feature on or off as desired.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
+
+### 2.0.8 - Dedicated Server AutoShield Reset Fix & Valheim 1.0.15 Alignment
+* **Dedicated Server AutoShield Reset Fix**: Added null-conditional invocation for `OnResetEvent` during `Player.SetLocalPlayer`, eliminating `NullReferenceException` crashes on dedicated servers when no client UI handlers are registered.
+* **Valheim 1.0.15 Alignment**: Updated all game assembly references and internalized `Vapok.Valheim.Common` 3.13.1015.
 
 ### 2.0.7 - Splash Window Updates & Valheim 1.0.14 Alignment
 * **Splash Window Updates**:

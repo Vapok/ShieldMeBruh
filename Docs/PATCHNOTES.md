@@ -1,3 +1,16 @@
+# 2.1.0 - 1-Handed Weapon Exclusion & Red X Badges
+* **Weapon Exclusion Feature Architecture**:
+  * Added `Features/WeaponExclusion.cs` to manage one-handed weapon exclusion logic, asset loading, and dynamic slot synchronizations.
+  * Tagged excluded items with custom data key `vapok.mods.shieldmebruh.excluded` via Valheim's native `ItemDrop.ItemData.m_customData` for persistent per-item exclusion.
+  * Embedded high-resolution `Resources/excluded.png` (1024x1024 RGBA) positioned in the lower-right quadrant matching `shield.png`.
+* **Middle-Click Routing**:
+  * In `AutoShield.OnMiddleClick`, added detection for `ItemDrop.ItemData.ItemType.OneHandedWeapon`, delegating to `WeaponExclusion.ToggleExclusion` while preserving single-shield selection behavior on shields.
+* **Harmony Intercept Updates**:
+  * In `Humanoid_Patches.cs`, updated `HumanoidEquipItemPatch` and `HumanoidUnequipItemPatch` to check `WeaponExclusion.IsExcluded(item)` and bypass automatic shield deployment/retraction.
+  * In `InventoryGrid_Patches.cs`, updated `InventoryGridUpdateGuiPatch.Postfix` to execute `WeaponExclusion.UpdateGridElements` on `PlayerGrid`, ensuring the red X badge automatically tracks across inventory moves, swaps, and container operations.
+* **Configuration**:
+  * Added `Enable Weapon Exclusion` boolean setting to `Local Config` with `ConfigurationManagerAttributes`.
+
 # 2.0.8 - Dedicated Server AutoShield Reset Fix & Valheim 1.0.15 Alignment
 * **AutoShield Null Safety Guards**:
   * In `AutoShield.cs`, updated `AutoShield.ResetEvent.PerformReset` to verify `player != null` and invoke `OnResetEvent?.Invoke(...)` safely, preventing unhandled `NullReferenceException` crashes on dedicated servers when no client UI handlers are registered.

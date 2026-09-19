@@ -110,6 +110,7 @@
     <ItemGroup>
         <Compile Include="Configuration\ConfigRegistry.cs" />
         <Compile Include="Features\AutoShield.cs" />
+        <Compile Include="Features\WeaponExclusion.cs" />
         <Compile Include="Patches\DeathEvent.cs" />
         <Compile Include="Patches\FejdStartup.cs" />
         <Compile Include="Patches\Humanoid_Patches.cs" />
@@ -125,6 +126,7 @@
         <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
+        <EmbeddedResource Include="Resources\excluded.png" />
         <EmbeddedResource Include="Resources\shield.png" />
         <EmbeddedResource Include="Translations\English.json" />
         <Content Include="ILRepack.Config.props" />

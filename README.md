@@ -31,8 +31,9 @@ Never get caught in battle with an empty off-hand! **Shield Me Bruh!** is a slee
 
 * 🖱️ **Mark Your Shield**: Open your Player Inventory and <kbd>Middle-Click</kbd> your desired shield. A special *Shield Me Bruh!* icon appears on the item icon to confirm it is your designated combat shield.
 * 🔄 **Unmark or Swap**: <kbd>Middle-Click</kbd> the shield again to unmark it. If you middle-click a different shield while wielding a 1H weapon, your character will instantly equip the new shield!
-* ⚔️ **Automatic Combat Ready**: Whenever you equip a one-handed weapon, *Shield Me Bruh!* automatically equips your marked shield. Unequipping or switching to a 2H weapon safely stows your shield.
-* 💾 **Persistent Across Sessions**: Your shield selection persists across game saves, world transitions, and character logouts.
+* ⚔️ **Automatic Combat Ready**: Whenever you equip an eligible one-handed weapon, *Shield Me Bruh!* automatically equips your marked shield. Unequipping or switching to a 2H weapon safely stows your shield.
+* ❌ **Exclude Specific Weapons**: Don't want your shield to deploy when using utility tools like woodcutting axes? <kbd>Middle-Click</kbd> any 1-handed weapon to mark it with a **red X**. Equipping an excluded weapon leaves your off-hand free with no movement speed penalties! Multiple weapons can be excluded simultaneously.
+* 💾 **Persistent Across Sessions**: Your shield selection and weapon exclusions persist across inventory moves, chests, game saves, world transitions, and character logouts.
 
 ---
 
@@ -43,6 +44,7 @@ Never get caught in battle with an empty off-hand! **Shield Me Bruh!** is a slee
 | **Mark Shield** | <kbd>Middle-Click</kbd> (in Inventory) | Designates the clicked shield as your auto-equip shield. |
 | **Deselect Shield** | <kbd>Middle-Click</kbd> (on Marked Shield) | Removes the mark and disables auto-equip for that shield. |
 | **Quick Swap** | <kbd>Middle-Click</kbd> (on New Shield) | Instantly marks and auto-equips the new shield if a 1H weapon is held. |
+| **Exclude Weapon** | <kbd>Middle-Click</kbd> (on 1H Weapon) | Toggles the red X exclusion badge so the shield will not auto-deploy for this weapon. |
 
 ---
 
