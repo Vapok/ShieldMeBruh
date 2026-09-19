@@ -1,3 +1,10 @@
+# 2.0.8 - Dedicated Server AutoShield Reset Fix & Valheim 1.0.15 Alignment
+* **AutoShield Null Safety Guards**:
+  * In `AutoShield.cs`, updated `AutoShield.ResetEvent.PerformReset` to verify `player != null` and invoke `OnResetEvent?.Invoke(...)` safely, preventing unhandled `NullReferenceException` crashes on dedicated servers when no client UI handlers are registered.
+* **Valheim 1.0.15 Game Reference Alignment**:
+  * Updated game assembly bindings to target Valheim `1.0.15`.
+  * Internalized `Vapok.Valheim.Common` v3.13.1015.
+
 # 2.0.7 - Splash Window Updates & Valheim 1.0.14 Alignment
 * **Splash Window Updates**:
   * Updated telemetry default to unchecked on first launch (Opt-In).
