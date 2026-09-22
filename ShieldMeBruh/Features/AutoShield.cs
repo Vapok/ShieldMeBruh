@@ -414,12 +414,24 @@ public class AutoShield
     {
         public static void PerformReset(Player player)
         {
+            if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)
+                return;
+
             if (Player.m_localPlayer == null || player == null)
                 return;
             
-            player.UnequipItem(player.m_rightItem, false);
-            player.UnequipItem(player.m_leftItem, false);
-            OnResetEvent?.Invoke(ShieldMeBruh.AutoShield, EventArgs.Empty);
+            try
+            {
+                if (player.m_rightItem != null)
+                    player.UnequipItem(player.m_rightItem, false);
+                if (player.m_leftItem != null)
+                    player.UnequipItem(player.m_leftItem, false);
+                OnResetEvent?.Invoke(ShieldMeBruh.AutoShield, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                ShieldMeBruh.Log.Warning($"Exception during PerformReset: {ex.Message}");
+            }
         }
 
         public static event EventHandler OnResetEvent;

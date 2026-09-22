@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 
 namespace ShieldMeBruh.Patches;
 
@@ -47,7 +47,7 @@ public static class MoveProtection
             if (ShieldMeBruh.AutoShield.CurrentElement == null && ShieldMeBruh.AutoShield.SelectedShield == null)
                 return;
 
-            if (__instance == null || fromInventory == null || item == null)
+            if (__instance == null || fromInventory == null || item == null || __instance.m_name == null)
                 return;
 
             /* Two Scenarios:
@@ -57,17 +57,19 @@ public static class MoveProtection
              * Work: Detect both in this method.
              */
 
-            if (__instance.m_name.Equals("Inventory"))
+            if (string.Equals(__instance.m_name, "Inventory"))
             {
+                InventoryGrid activeGrid = ShieldMeBruh.AutoShield.GetActiveInstance();
+                if (activeGrid == null)
+                    return;
+
                 //Scenario 2:
                 if (item != ShieldMeBruh.AutoShield.SelectedShield)
                 {
                     //Peer into the next item
-                    var targetElement = ShieldMeBruh.AutoShield.GetActiveInstance()
-                        .GetElement(x, y, __instance.m_width);
-                    var sourceElement = ShieldMeBruh.AutoShield.GetActiveInstance()
-                        .GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
-                    var itemAt = __instance.GetItemAt(x, y);
+                    InventoryElement targetElement = activeGrid.GetElement(x, y, __instance.m_width);
+                    InventoryElement sourceElement = activeGrid.GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
+                    ItemDrop.ItemData itemAt = __instance.GetItemAt(x, y);
 
                     if (targetElement == null || sourceElement == null || itemAt == null)
                         return;
@@ -81,10 +83,8 @@ public static class MoveProtection
                 else
                 {
                     //Scenario 1:
-                    var targetElement = ShieldMeBruh.AutoShield.GetActiveInstance()
-                        .GetElement(x, y, __instance.m_width);
-                    var sourceElement = ShieldMeBruh.AutoShield.GetActiveInstance()
-                        .GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
+                    InventoryElement targetElement = activeGrid.GetElement(x, y, __instance.m_width);
+                    InventoryElement sourceElement = activeGrid.GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
 
                     if (targetElement == null || sourceElement == null)
                         return;
@@ -145,7 +145,7 @@ public static class MoveProtection
                 _movingWithDropItem || _movingWithMoveItemToThis)
                 return;
 
-            if (!__instance.m_name.Equals("Inventory"))
+            if (!string.Equals(__instance.m_name, "Inventory"))
                 return;
 
             if (item.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
@@ -167,7 +167,8 @@ public static class MoveProtection
             if (item == null || __instance == null)
                 return;
             
-            if (ShieldMeBruh.AutoShield.SelectedShield == null || ShieldMeBruh.AutoShield.GetActiveInstance() == null)
+            InventoryGrid activeGrid = ShieldMeBruh.AutoShield.GetActiveInstance();
+            if (ShieldMeBruh.AutoShield.SelectedShield == null || activeGrid == null)
                 return;
 
             /* Two Scenarios:
@@ -177,15 +178,15 @@ public static class MoveProtection
              * Work: Detect both in this method.
              */
 
-            if (__instance.name.Equals("PlayerGrid"))
+            if (string.Equals(__instance.name, "PlayerGrid"))
             {
                 //Scenario 2:
                 if (item != ShieldMeBruh.AutoShield.SelectedShield)
                 {
                     //Peer into the next item
-                    var targetElement = ShieldMeBruh.AutoShield.GetActiveInstance().GetElement(pos.x, pos.y, __instance.m_width);
-                    var sourceElement = ShieldMeBruh.AutoShield.GetActiveInstance().GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
-                    var itemAt = __instance.m_inventory.GetItemAt(pos.x, pos.y);
+                    InventoryElement targetElement = activeGrid.GetElement(pos.x, pos.y, __instance.m_width);
+                    InventoryElement sourceElement = activeGrid.GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
+                    ItemDrop.ItemData itemAt = __instance.m_inventory.GetItemAt(pos.x, pos.y);
 
                     if (targetElement == null || sourceElement == null || itemAt == null)
                         return;
@@ -199,10 +200,8 @@ public static class MoveProtection
                 else
                 {
                     //Scenario 1:
-                    var targetElement = ShieldMeBruh.AutoShield.GetActiveInstance()
-                        .GetElement(pos.x, pos.y, __instance.m_width);
-                    var sourceElement = ShieldMeBruh.AutoShield.GetActiveInstance()
-                        .GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
+                    InventoryElement targetElement = activeGrid.GetElement(pos.x, pos.y, __instance.m_width);
+                    InventoryElement sourceElement = activeGrid.GetElement(item.m_gridPos.x, item.m_gridPos.y, __instance.m_width);
 
                     if (targetElement == null || sourceElement == null)
                         return;
