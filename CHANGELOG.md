@@ -1,7 +1,7 @@
 # 2.1.1 - Reset Safety & Dedicated Server Fixes
 * Fixed an issue that could cause errors when resetting shields on dedicated servers.
 * Improved inventory item move safety and grid tracking.
-* Updated internal libraries for better stability.
+* Updated Jotunn to 2.30.2 and internal dependencies for stability.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
