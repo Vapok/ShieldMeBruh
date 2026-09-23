@@ -1,7 +1,9 @@
-# 2.1.1 - Reset Safety & Dedicated Server Fixes
-* Fixed an issue that could cause errors when resetting shields on dedicated servers.
-* Improved inventory item move safety and grid tracking.
-* Updated Jotunn to 2.30.2 and internal dependencies for stability.
+# 2.1.1 - Performance, Server Hardening & Sentry Fixes
+* **Performance Optimizations**: Cached inventory grid badge components, eliminating hundreds of per-frame lookups when browsing inventory.
+* **Dedicated Server Safety**: Ensured client equipment and UI patches are completely bypassed on headless dedicated servers.
+* **Multiplayer Safety**: Isolated shield management strictly to the local player, preventing nearby players' equipment or death events from affecting local shields.
+* **Bug Fixes**: Resolved harmless errors during inventory item moves and game exit routines.
+* **Dependency Updates**: Updated Jotunn to 2.30.2 and internal dependencies for stability.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
@@ -71,3 +73,4 @@
 * Implemented middle-click shield marking in player inventory.
 
 </details>
+

@@ -22,6 +22,9 @@ public class AutoShieldSaveData
 
 public class AutoShield
 {
+    private static readonly IDeserializer _yamlDeserializer = new DeserializerBuilder().Build();
+    private static readonly ISerializer _yamlSerializer = new SerializerBuilder().Build();
+
     private InventoryGrid _activeInstance;
 
     private Sprite _shield;
@@ -40,7 +43,7 @@ public class AutoShield
 
     public void LoadAssets()
     {
-        var path = "ShieldMeBruh.Resources";
+        string path = "ShieldMeBruh.Resources";
         _shield = LoadSprite($"{path}.shield.png", new Rect(0, 0, 1024, 1024));
     }
 
@@ -73,11 +76,10 @@ public class AutoShield
     
     public static Texture2D LoadImage(byte[] bytes)
     {
-        var texture = new Texture2D(2, 2);
+        Texture2D texture = new Texture2D(2, 2);
     
-        // use reflection because NetStandard 2.1 is not compatible with .NET4.8 and this function is not available at compile time.
-        var loadImage = AccessTools.Method(typeof(ImageConversion), nameof(ImageConversion.LoadImage), new [] {typeof(Texture2D), typeof(byte[])});
-        var isSuccess = (bool) loadImage.Invoke(null, new object[]{texture, bytes});
+        MethodInfo loadImage = AccessTools.Method(typeof(ImageConversion), nameof(ImageConversion.LoadImage), new [] {typeof(Texture2D), typeof(byte[])});
+        bool isSuccess = (bool) loadImage.Invoke(null, new object[]{texture, bytes});
     
         if (!isSuccess)
             throw new Exception("Failed to load image data into texture from byte array");
@@ -89,11 +91,11 @@ public class AutoShield
     {
         if (pivot == null) pivot = new Vector2(0.5f, 0.5f);
 
-        var assembly = Assembly.GetExecutingAssembly();
-        var imageStream = assembly.GetManifestResourceStream(path);
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        Stream imageStream = assembly.GetManifestResourceStream(path);
 
-        var imageData = ReadToEnd(imageStream);
-        var texture = LoadImage(imageData);
+        byte[] imageData = ReadToEnd(imageStream);
+        Texture2D texture = LoadImage(imageData);
 
         if (texture == null) ShieldMeBruh.Log.Error("Missing Embedded Resource: " + path);
 
@@ -102,14 +104,14 @@ public class AutoShield
 
     private byte[] ReadToEnd(Stream stream)
     {
-        var originalPosition = stream.Position;
+        long originalPosition = stream.Position;
         stream.Position = 0;
 
         try
         {
-            var readBuffer = new byte[4096];
+            byte[] readBuffer = new byte[4096];
 
-            var totalBytesRead = 0;
+            int totalBytesRead = 0;
             int bytesRead;
 
             while ((bytesRead = stream.Read(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)) > 0)
@@ -118,10 +120,10 @@ public class AutoShield
 
                 if (totalBytesRead == readBuffer.Length)
                 {
-                    var nextByte = stream.ReadByte();
+                    int nextByte = stream.ReadByte();
                     if (nextByte != -1)
                     {
-                        var temp = new byte[readBuffer.Length * 2];
+                        byte[] temp = new byte[readBuffer.Length * 2];
                         Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
                         Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
                         readBuffer = temp;
@@ -130,7 +132,7 @@ public class AutoShield
                 }
             }
 
-            var buffer = readBuffer;
+            byte[] buffer = readBuffer;
             if (readBuffer.Length != totalBytesRead)
             {
                 buffer = new byte[totalBytesRead];
@@ -147,15 +149,10 @@ public class AutoShield
 
     private Image CreateShieldedImage(Image baseImg, Image noTeleport)
     {
-        // set m_queued parent as parent first, so the position is correct
-        var obj = Object.Instantiate(baseImg, baseImg.transform.parent);
-        // change the parent to the m_queued image so we can access the new image without a loop
-        var transform = obj.transform;
-        //transform.SetParent(baseImg.transform);
+        Image obj = Object.Instantiate(baseImg, baseImg.transform.parent);
+        Transform transform = obj.transform;
         transform.name = "shield";
-        //transform.SetAsLastSibling();
 
-        // set the new shield image
         obj.sprite = _shield;
         obj.name = "shield";
         obj.color = noTeleport.color;
@@ -171,17 +168,17 @@ public class AutoShield
 
         if (middleClick == null || middleClick.gameObject == null) return;
 
-        var player = Player.m_localPlayer;
+        Player player = Player.m_localPlayer;
 
-        var buttonPos = _activeInstance.GetButtonPos(middleClick.gameObject);
+        Vector2i buttonPos = _activeInstance.GetButtonPos(middleClick.gameObject);
         ShieldMeBruh.Log.Debug($"Button Pressed on {buttonPos.x},{buttonPos.y}");
 
-        var itemAt = _activeInstance.m_inventory.GetItemAt(buttonPos.x, buttonPos.y);
+        ItemDrop.ItemData itemAt = _activeInstance.m_inventory.GetItemAt(buttonPos.x, buttonPos.y);
 
         if (itemAt == null) return;
 
-        var targetVector = new Vector2i(buttonPos.x, buttonPos.y);
-        var selectedElement = _activeInstance.GetElement(buttonPos.x, buttonPos.y, _activeInstance.m_width);
+        Vector2i targetVector = new Vector2i(buttonPos.x, buttonPos.y);
+        InventoryElement selectedElement = _activeInstance.GetElement(buttonPos.x, buttonPos.y, _activeInstance.m_width);
 
         if (itemAt.m_shared.m_itemType == ItemDrop.ItemData.ItemType.OneHandedWeapon)
         {
@@ -194,8 +191,8 @@ public class AutoShield
 
         if (itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield) return;
 
-        var shieldEquipped = player.m_leftItem != null && player.m_leftItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield;
-        var currentEquippedShield = shieldEquipped ? player.m_leftItem : null;
+        bool shieldEquipped = player.m_leftItem != null && player.m_leftItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield;
+        ItemDrop.ItemData currentEquippedShield = shieldEquipped ? player.m_leftItem : null;
 
         if (CurrentElement == null)
         {
@@ -237,10 +234,9 @@ public class AutoShield
         {
             if (statusSetTo)
             {
-                if (Player.m_localPlayer is { } player && CurrentElement != null && SelectedShield != null)
+                if (Player.m_localPlayer != null && CurrentElement != null && SelectedShield != null)
                 {
-                    //Validate Location and Item
-                    var itemAt = player.GetInventory().GetItemAt(CurrentElement.Position.x, CurrentElement.Position.y);
+                    ItemDrop.ItemData itemAt = Player.m_localPlayer.GetInventory().GetItemAt(CurrentElement.Position.x, CurrentElement.Position.y);
 
                     if (itemAt != SelectedShield)
                         statusSetTo = false;
@@ -280,7 +276,7 @@ public class AutoShield
         CurrentElement = null;
         SelectedShield = null;
 
-        var savedData = new AutoShieldSaveData
+        AutoShieldSaveData savedData = new AutoShieldSaveData
         {
             SavedElement = new Vector2i(-1, -1)
         };
@@ -292,7 +288,7 @@ public class AutoShield
         if (itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
             return;
         
-        var img = GetShield(selectedElement);
+        Image img = GetShield(selectedElement);
 
         img.enabled = true;
 
@@ -317,11 +313,11 @@ public class AutoShield
             }
         }
 
-        var saveVector = new Vector2i(-1, -1);
+        Vector2i saveVector = new Vector2i(-1, -1);
 
         if (CurrentElement != null) saveVector = new Vector2i(CurrentElement.Position.x, CurrentElement.Position.y);
 
-        var savedData = new AutoShieldSaveData();
+        AutoShieldSaveData savedData = new AutoShieldSaveData();
         savedData.SavedElement = saveVector;
 
         SaveShieldSaveData(savedData);
@@ -331,37 +327,25 @@ public class AutoShield
 
     private Image GetShield(InventoryElement element)
     {
-        Image img = null;
-
-        if (element.gameObject == null)
+        if (element == null || element.gameObject == null)
         {
             ShieldMeBruh.Log.Error("Element gameObject is null");
             return null;
         }
 
-        if (element.transform.childCount > 0)
+        ShieldMeElementData data = element.GetComponent<ShieldMeElementData>();
+        if (data == null)
         {
-            for (var i = 0; i < element.transform.childCount; i++)
-            {
-                var childTransform = element.transform.GetChild(i);
-                var childImage = childTransform.GetComponent<Image>();
-                
-                if (childImage != null)
-                {
-                    if (childImage.transform.name == "shield")
-                        img = childImage;
-                }
-            }
+            data = element.gameObject.AddComponent<ShieldMeElementData>();
         }
 
-        if (img == null)
+        if (data.ShieldImage == null)
         {
-            ShieldMeBruh.Log.Debug($"Image Null: {element.name}");
-            img = CreateShieldedImage(element.m_icon, element.m_noteleport);
+            data.ShieldImage = CreateShieldedImage(element.m_icon, element.m_noteleport);
+            data.ShieldImage.enabled = false;
         }
 
-        img.enabled = false;
-        return img;
+        return data.ShieldImage;
     }
 
     public void ResetAutoShieldOnPlayerAwake()
@@ -377,19 +361,15 @@ public class AutoShield
 
     public AutoShieldSaveData GetShieldSaveData()
     {
-        var outputData = new AutoShieldSaveData()
+        AutoShieldSaveData outputData = new AutoShieldSaveData()
         {
             SavedElement = new Vector2i(-1, -1)
         };
 
         if (Player.m_localPlayer != null && Player.m_localPlayer.m_customData.ContainsKey("vapok.mods.shieldmebruh"))
         {
-            var deserializer = new DeserializerBuilder().Build();
-
-            var yaml = deserializer.Deserialize<AutoShieldSaveData>(
+            outputData = _yamlDeserializer.Deserialize<AutoShieldSaveData>(
                 Player.m_localPlayer.m_customData["vapok.mods.shieldmebruh"]);
-
-            outputData = yaml;
         }
 
         return outputData;
@@ -400,9 +380,7 @@ public class AutoShield
         if (Player.m_localPlayer == null)
             return;
 
-        var serializer = new SerializerBuilder().Build();
-
-        var yaml = serializer.Serialize(savedData);
+        string yaml = _yamlSerializer.Serialize(savedData);
 
         if (Player.m_localPlayer.m_customData.ContainsKey("vapok.mods.shieldmebruh"))
             Player.m_localPlayer.m_customData["vapok.mods.shieldmebruh"] = yaml;
@@ -414,10 +392,10 @@ public class AutoShield
     {
         public static void PerformReset(Player player)
         {
-            if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)
+            if (Jotunn.Managers.GUIManager.IsHeadless())
                 return;
 
-            if (Player.m_localPlayer == null || player == null)
+            if (Player.m_localPlayer == null || player == null || player != Player.m_localPlayer)
                 return;
             
             try
@@ -426,7 +404,8 @@ public class AutoShield
                     player.UnequipItem(player.m_rightItem, false);
                 if (player.m_leftItem != null)
                     player.UnequipItem(player.m_leftItem, false);
-                OnResetEvent?.Invoke(ShieldMeBruh.AutoShield, EventArgs.Empty);
+                if (ShieldMeBruh.AutoShield != null)
+                    OnResetEvent?.Invoke(ShieldMeBruh.AutoShield, EventArgs.Empty);
             }
             catch (Exception ex)
             {

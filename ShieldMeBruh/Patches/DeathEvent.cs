@@ -1,5 +1,6 @@
-﻿using System.Threading;
+using System.Threading;
 using HarmonyLib;
+using ShieldMeBruh.Features;
 
 namespace ShieldMeBruh.Patches;
 
@@ -10,14 +11,13 @@ public static class DeathEvent
     [HarmonyPatch(typeof(Player), nameof(Player.OnDeath))]
     private static class OnDeathEventPatch
     {
-        private static void Postfix(bool __runOriginal)
+        private static void Postfix(Player __instance, bool __runOriginal)
         {
-            if (__runOriginal)
-            {
-                ShieldMeBruh.AutoShield.SetShieldStatus(false);
-                DeathInProgress = true;
-            }
-                
+            if (!__runOriginal || __instance == null || __instance != Player.m_localPlayer || ShieldMeBruh.AutoShield == null)
+                return;
+
+            ShieldMeBruh.AutoShield.SetShieldStatus(false);
+            DeathInProgress = true;
         }
     }
     
@@ -26,55 +26,55 @@ public static class DeathEvent
     {
         private static void Postfix(TombStone __instance, bool __runOriginal)
         {
-            DeathInProgress = false;
-            
-            if (Game.instance == null || __instance == null)
+            if (!__runOriginal || Game.instance == null || __instance == null || Player.m_localPlayer == null || ShieldMeBruh.AutoShield == null)
                 return;
 
-            if (__instance.IsOwner() && Player.m_localPlayer is { } player && __runOriginal)
+            if (!__instance.IsOwner())
+                return;
+
+            Player player = Player.m_localPlayer;
+            PlayerProfile profile = Game.instance.GetPlayerProfile();
+            if (profile == null)
+                return;
+
+            string name = profile.GetName();
+            if (string.IsNullOrEmpty(name) || __instance.m_container == null)
+                return;
+
+            if (!string.Equals(__instance.m_container.m_name, name))
+                return;
+
+            DeathInProgress = false;
+
+            AutoShieldSaveData shieldSaveData = ShieldMeBruh.AutoShield.GetShieldSaveData();
+            if (shieldSaveData == null)
+                return;
+
+            Vector2i savedElementVector = shieldSaveData.SavedElement;
+            if (savedElementVector.x < 0 || savedElementVector.y < 0)
+                return;
+
+            if (player.GetInventory() == null)
+                return;
+
+            ItemDrop.ItemData savedItem = player.GetInventory().GetItemAt(savedElementVector.x, savedElementVector.y);
+            InventoryElement savedElement = null;
+
+            if (ShieldMeBruh.AutoShield.GetActiveInstance() == null)
             {
-                var name = Game.instance.GetPlayerProfile()?.GetName();
-
-                if (name == null || __instance.m_container == null)
-                    return;
-
-                if (__instance.m_container.m_name.Equals(name))
+                if (ShieldMeBruh.AutoShield.CurrentElement != null)
                 {
-                    var savedElementVector = ShieldMeBruh.AutoShield.GetShieldSaveData()?.SavedElement;
-                    
-                    if (savedElementVector == null)
-                        return;
-
-                    if (savedElementVector.Value.x >= 0 && savedElementVector.Value.y >= 0)
-                    {
-                        var savedItem = player.GetInventory().GetItemAt(savedElementVector.Value.x, savedElementVector.Value.y);
-                        
-                        if (player.GetInventory() == null)
-                            return;
-
-                        InventoryElement savedElement = null;
-                        
-                        if (ShieldMeBruh.AutoShield.GetActiveInstance() == null)
-                        {
-                            if (ShieldMeBruh.AutoShield.CurrentElement != null)
-                            {
-                                savedElement = ShieldMeBruh.AutoShield.CurrentElement;
-                            }
-                        }
-                        else
-                        {
-                            savedElement = ShieldMeBruh.AutoShield.GetActiveInstance().GetElement(savedElementVector.Value.x, savedElementVector.Value.y, player.GetInventory().m_width);                            
-                        }
-                        
-                        if (savedElement != null && savedItem != null)
-                        {
-                            if (savedItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield)
-                            {
-                                ShieldMeBruh.AutoShield.ApplyShieldToElement(savedElement, savedItem);
-                            }
-                        }
-                    }
+                    savedElement = ShieldMeBruh.AutoShield.CurrentElement;
                 }
+            }
+            else
+            {
+                savedElement = ShieldMeBruh.AutoShield.GetActiveInstance().GetElement(savedElementVector.x, savedElementVector.y, player.GetInventory().m_width);
+            }
+
+            if (savedElement != null && savedItem != null && savedItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield)
+            {
+                ShieldMeBruh.AutoShield.ApplyShieldToElement(savedElement, savedItem);
             }
         }
     }

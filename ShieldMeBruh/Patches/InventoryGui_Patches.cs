@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 
 namespace ShieldMeBruh.Patches;
 
@@ -9,7 +9,7 @@ public static class InventoryGui_Patches
     {
         private static void Postfix(InventoryGui __instance, bool __runOriginal)
         {
-            if (__runOriginal)
+            if (__runOriginal && ShieldMeBruh.AutoShield != null && __instance != null)
                 ShieldMeBruh.AutoShield.SetActiveInstance(__instance.m_playerGrid);
         }
     }

@@ -110,6 +110,7 @@
     <ItemGroup>
         <Compile Include="Configuration\ConfigRegistry.cs" />
         <Compile Include="Features\AutoShield.cs" />
+        <Compile Include="Features\ShieldMeElementData.cs" />
         <Compile Include="Features\WeaponExclusion.cs" />
         <Compile Include="Patches\DeathEvent.cs" />
         <Compile Include="Patches\FejdStartup.cs" />

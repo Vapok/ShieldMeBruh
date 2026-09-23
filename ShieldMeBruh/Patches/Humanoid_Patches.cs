@@ -1,4 +1,5 @@
 using HarmonyLib;
+using ShieldMeBruh.Features;
 
 namespace ShieldMeBruh.Patches;
 
@@ -10,7 +11,7 @@ public static class Humanoid_Patches
         private static void Postfix(Humanoid __instance, ItemDrop.ItemData item, ref bool __result,
             ItemDrop.ItemData ___m_leftItem, bool __runOriginal)
         {
-            if (__instance is not Player player || !ShieldMeBruh.AutoShield.FeatureInitialized || !__runOriginal)
+            if (__instance is not Player player || player != Player.m_localPlayer || ShieldMeBruh.AutoShield == null || !ShieldMeBruh.AutoShield.FeatureInitialized || !__runOriginal)
                 return;
 
             if (ShieldMeBruh.WeaponExclusion != null && ShieldMeBruh.WeaponExclusion.IsExcluded(item))
@@ -18,9 +19,10 @@ public static class Humanoid_Patches
 
             if (__result && item.m_shared.m_itemType == ItemDrop.ItemData.ItemType.OneHandedWeapon &&
                 ___m_leftItem == null)
-                if (ShieldMeBruh.AutoShield.SelectedShield != null)
+            {
+                if (ShieldMeBruh.AutoShield.SelectedShield != null && ShieldMeBruh.AutoShield.CurrentElement != null)
                 {
-                    var equipItem = player.m_inventory.GetItemAt(ShieldMeBruh.AutoShield.CurrentElement.Position.x, ShieldMeBruh.AutoShield.CurrentElement.Position.y);
+                    ItemDrop.ItemData equipItem = player.m_inventory.GetItemAt(ShieldMeBruh.AutoShield.CurrentElement.Position.x, ShieldMeBruh.AutoShield.CurrentElement.Position.y);
                     if (equipItem != null && equipItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield)
                     {
                         player.EquipItem(equipItem);                    
@@ -28,17 +30,18 @@ public static class Humanoid_Patches
                 }
                 else
                 {
-                    var savedData = ShieldMeBruh.AutoShield.GetShieldSaveData();
+                    AutoShieldSaveData savedData = ShieldMeBruh.AutoShield.GetShieldSaveData();
 
                     if (savedData.SavedElement.x >= 0 && savedData.SavedElement.y >= 0)
                     {
-                        var equipItem = player.m_inventory.GetItemAt(savedData.SavedElement.x, savedData.SavedElement.y);
+                        ItemDrop.ItemData equipItem = player.m_inventory.GetItemAt(savedData.SavedElement.x, savedData.SavedElement.y);
                         if (equipItem != null && equipItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Shield)
                         {
                             player.EquipItem(equipItem);                    
                         }
                     }
                 }
+            }
         }
     }
 
@@ -47,7 +50,7 @@ public static class Humanoid_Patches
     {
         private static void Postfix(Humanoid __instance, ItemDrop.ItemData item, ItemDrop.ItemData ___m_leftItem, bool __runOriginal)
         {
-            if (__instance is not Player player || item == null || ___m_leftItem == null || !ShieldMeBruh.AutoShield.FeatureInitialized || !__runOriginal)
+            if (__instance is not Player player || player != Player.m_localPlayer || item == null || ___m_leftItem == null || ShieldMeBruh.AutoShield == null || !ShieldMeBruh.AutoShield.FeatureInitialized || !__runOriginal)
                 return;
 
             if (ShieldMeBruh.WeaponExclusion != null && ShieldMeBruh.WeaponExclusion.IsExcluded(item))
@@ -59,7 +62,7 @@ public static class Humanoid_Patches
 
                 if (ShieldMeBruh.AutoShield.CurrentElement == null && ShieldMeBruh.AutoShield.SelectedShield == null)
                 {
-                    var savedData = ShieldMeBruh.AutoShield.GetShieldSaveData();
+                    AutoShieldSaveData savedData = ShieldMeBruh.AutoShield.GetShieldSaveData();
                     if (savedData.SavedElement.x >= 0 && savedData.SavedElement.y >= 0)
                     {
                         equipItem = player.m_inventory.GetItemAt(savedData.SavedElement.x, savedData.SavedElement.y);
@@ -69,7 +72,7 @@ public static class Humanoid_Patches
                             ___m_leftItem == equipItem) player.UnequipItem(equipItem);
                     }
                 }
-                else
+                else if (ShieldMeBruh.AutoShield.CurrentElement != null)
                 {
                     equipItem = player.m_inventory.GetItemAt(ShieldMeBruh.AutoShield.CurrentElement.Position.x, ShieldMeBruh.AutoShield.CurrentElement.Position.y);
 

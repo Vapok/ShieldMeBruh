@@ -1,4 +1,6 @@
+using System;
 using HarmonyLib;
+using ShieldMeBruh.Features;
 
 namespace ShieldMeBruh.Patches;
 
@@ -16,16 +18,16 @@ public static class MoveProtection
     {
         private static void Prefix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item)
         {
-            if (_movingWithDropItem)
+            if (Jotunn.Managers.GUIManager.IsHeadless() || _movingWithDropItem)
                 return;
 
-            if (ShieldMeBruh.AutoShield.CurrentElement == null && ShieldMeBruh.AutoShield.SelectedShield == null)
+            if (__instance == null || fromInventory == null || item == null || string.IsNullOrEmpty(__instance.m_name))
                 return;
 
-            if (__instance == null || fromInventory == null || item == null)
+            if (ShieldMeBruh.AutoShield == null || (ShieldMeBruh.AutoShield.CurrentElement == null && ShieldMeBruh.AutoShield.SelectedShield == null))
                 return;
 
-            if (!__instance.m_name.Equals("Inventory"))
+            if (!string.Equals(__instance.m_name, "Inventory", StringComparison.Ordinal))
             {
                 if (item == ShieldMeBruh.AutoShield.SelectedShield ||
                     (ShieldMeBruh.AutoShield.CurrentElement != null && item.m_gridPos == ShieldMeBruh.AutoShield.CurrentElement.Position))
@@ -41,13 +43,13 @@ public static class MoveProtection
     {
         private static void Prefix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item, int x, int y)
         {
-            if (_movingWithDropItem)
+            if (Jotunn.Managers.GUIManager.IsHeadless() || _movingWithDropItem)
                 return;
 
-            if (ShieldMeBruh.AutoShield.CurrentElement == null && ShieldMeBruh.AutoShield.SelectedShield == null)
+            if (__instance == null || fromInventory == null || item == null || string.IsNullOrEmpty(__instance.m_name))
                 return;
 
-            if (__instance == null || fromInventory == null || item == null || __instance.m_name == null)
+            if (ShieldMeBruh.AutoShield == null || (ShieldMeBruh.AutoShield.CurrentElement == null && ShieldMeBruh.AutoShield.SelectedShield == null))
                 return;
 
             /* Two Scenarios:
@@ -57,7 +59,7 @@ public static class MoveProtection
              * Work: Detect both in this method.
              */
 
-            if (string.Equals(__instance.m_name, "Inventory"))
+            if (string.Equals(__instance.m_name, "Inventory", StringComparison.Ordinal))
             {
                 InventoryGrid activeGrid = ShieldMeBruh.AutoShield.GetActiveInstance();
                 if (activeGrid == null)
@@ -109,17 +111,17 @@ public static class MoveProtection
         private static void Postfix(Inventory __instance, Inventory fromInventory, ItemDrop.ItemData item, int x,
             int y, bool __runOriginal )
         {
-            if (_movingWithDropItem || !__runOriginal)
+            if (Jotunn.Managers.GUIManager.IsHeadless() || _movingWithDropItem || !__runOriginal)
                 return;
 
-            if (item == null)
+            if (item == null || __instance == null)
                 return;
 
             if (_reEnableShield)
             {
-                var newItem = __instance.GetItemAt(_futureElement.Position.x, _futureElement.Position.y);
+                ItemDrop.ItemData newItem = __instance.GetItemAt(_futureElement.Position.x, _futureElement.Position.y);
 
-                if (newItem != null && _oldElement != null && _futureElement != null) 
+                if (newItem != null && _oldElement != null && _futureElement != null && ShieldMeBruh.AutoShield != null) 
                 {
                     ShieldMeBruh.AutoShield.ResetCurrentSheildElement(_oldElement);
                     ShieldMeBruh.AutoShield.ApplyShieldToElement(_futureElement, newItem);
@@ -140,12 +142,12 @@ public static class MoveProtection
     {
         private static void Postfix(Inventory __instance, ItemDrop.ItemData item, bool __runOriginal)
         {
-            if (item == null || !__runOriginal || __instance == null ||
-                ShieldMeBruh.AutoShield.CurrentElement == null || ShieldMeBruh.AutoShield.SelectedShield == null ||
+            if (Jotunn.Managers.GUIManager.IsHeadless() || item == null || !__runOriginal || __instance == null || string.IsNullOrEmpty(__instance.m_name) ||
+                ShieldMeBruh.AutoShield == null || ShieldMeBruh.AutoShield.CurrentElement == null || ShieldMeBruh.AutoShield.SelectedShield == null ||
                 _movingWithDropItem || _movingWithMoveItemToThis)
                 return;
 
-            if (!string.Equals(__instance.m_name, "Inventory"))
+            if (!string.Equals(__instance.m_name, "Inventory", StringComparison.Ordinal))
                 return;
 
             if (item.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
@@ -164,7 +166,7 @@ public static class MoveProtection
         private static void Prefix(InventoryGrid __instance, Inventory fromInventory, ItemDrop.ItemData item,
             int amount, Vector2i pos)
         {
-            if (item == null || __instance == null)
+            if (Jotunn.Managers.GUIManager.IsHeadless() || item == null || __instance == null || ShieldMeBruh.AutoShield == null)
                 return;
             
             InventoryGrid activeGrid = ShieldMeBruh.AutoShield.GetActiveInstance();
@@ -178,7 +180,7 @@ public static class MoveProtection
              * Work: Detect both in this method.
              */
 
-            if (string.Equals(__instance.name, "PlayerGrid"))
+            if (string.Equals(__instance.name, "PlayerGrid", StringComparison.Ordinal))
             {
                 //Scenario 2:
                 if (item != ShieldMeBruh.AutoShield.SelectedShield)
@@ -218,7 +220,7 @@ public static class MoveProtection
         private static void Postfix(InventoryGrid __instance, Inventory fromInventory, ItemDrop.ItemData item,
             int amount, Vector2i pos, ref bool __result, bool __runOriginal)
         {
-            if (!__result || !__runOriginal)
+            if (Jotunn.Managers.GUIManager.IsHeadless() || !__result || !__runOriginal || __instance == null || __instance.m_inventory == null)
             {
                 _reEnableShieldOnDropItem = false;
                 _oldElement = null;
@@ -226,13 +228,12 @@ public static class MoveProtection
                 _movingWithDropItem = false;
                 return;
             }
-                
 
             if (_reEnableShieldOnDropItem)
             {
-                var newItem = __instance.m_inventory.GetItemAt(_futureElement.Position.x, _futureElement.Position.y);
+                ItemDrop.ItemData newItem = __instance.m_inventory.GetItemAt(_futureElement.Position.x, _futureElement.Position.y);
 
-                if (newItem != null && _oldElement != null && _futureElement != null)
+                if (newItem != null && _oldElement != null && _futureElement != null && ShieldMeBruh.AutoShield != null)
                 {
                     ShieldMeBruh.AutoShield.ResetCurrentSheildElement(_oldElement);
                     ShieldMeBruh.AutoShield.ApplyShieldToElement(_futureElement, newItem);

@@ -25,7 +25,7 @@ public class WeaponExclusion
 
     public void LoadAssets()
     {
-        var path = "ShieldMeBruh.Resources";
+        string path = "ShieldMeBruh.Resources";
         _excluded = ShieldMeBruh.AutoShield.LoadSprite($"{path}.excluded.png", new Rect(0, 0, 1024, 1024));
     }
 
@@ -57,7 +57,7 @@ public class WeaponExclusion
         if (item.m_customData == null)
             item.m_customData = new Dictionary<string, string>();
 
-        var isExcluded = item.m_customData.ContainsKey(CustomDataKey);
+        bool isExcluded = item.m_customData.ContainsKey(CustomDataKey);
         if (isExcluded)
         {
             item.m_customData.Remove(CustomDataKey);
@@ -71,7 +71,7 @@ public class WeaponExclusion
 
         if (element != null)
         {
-            var img = GetExcludedImage(element);
+            Image img = GetExcludedImage(element);
             if (img != null)
                 img.enabled = !isExcluded;
         }
@@ -79,8 +79,8 @@ public class WeaponExclusion
 
     private Image CreateExcludedImage(Image baseImg, Image noTeleport)
     {
-        var obj = Object.Instantiate(baseImg, baseImg.transform.parent);
-        var transform = obj.transform;
+        Image obj = Object.Instantiate(baseImg, baseImg.transform.parent);
+        Transform transform = obj.transform;
         transform.name = "excluded";
 
         obj.sprite = _excluded;
@@ -93,36 +93,25 @@ public class WeaponExclusion
 
     public Image GetExcludedImage(InventoryElement element)
     {
-        Image img = null;
-
-        if (element.gameObject == null)
+        if (element == null || element.gameObject == null)
         {
             ShieldMeBruh.Log.Error("Element gameObject is null");
             return null;
         }
 
-        if (element.transform.childCount > 0)
+        ShieldMeElementData data = element.GetComponent<ShieldMeElementData>();
+        if (data == null)
         {
-            for (var i = 0; i < element.transform.childCount; i++)
-            {
-                var childTransform = element.transform.GetChild(i);
-                var childImage = childTransform.GetComponent<Image>();
-
-                if (childImage != null && childImage.transform.name == "excluded")
-                {
-                    img = childImage;
-                    break;
-                }
-            }
+            data = element.gameObject.AddComponent<ShieldMeElementData>();
         }
 
-        if (img == null)
+        if (data.ExcludedImage == null)
         {
-            img = CreateExcludedImage(element.m_icon, element.m_noteleport);
-            img.enabled = false;
+            data.ExcludedImage = CreateExcludedImage(element.m_icon, element.m_noteleport);
+            data.ExcludedImage.enabled = false;
         }
 
-        return img;
+        return data.ExcludedImage;
     }
 
     public void UpdateGridElements(InventoryGrid grid)
@@ -130,15 +119,15 @@ public class WeaponExclusion
         if (grid == null || grid.m_inventory == null || grid.m_elements == null)
             return;
 
-        foreach (var element in grid.m_elements)
+        foreach (InventoryElement element in grid.m_elements)
         {
             if (element == null || element.gameObject == null)
                 continue;
 
-            var item = grid.m_inventory.GetItemAt(element.Position.x, element.Position.y);
-            var shouldShow = IsExcluded(item);
+            ItemDrop.ItemData item = grid.m_inventory.GetItemAt(element.Position.x, element.Position.y);
+            bool shouldShow = IsExcluded(item);
 
-            var img = GetExcludedImage(element);
+            Image img = GetExcludedImage(element);
             if (img != null && img.enabled != shouldShow)
             {
                 img.enabled = shouldShow;

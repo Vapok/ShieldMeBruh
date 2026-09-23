@@ -41,68 +41,61 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
     public static WeaponExclusion WeaponExclusion { get; private set; }
 
     [UsedImplicitly]
-    // This the main function of the mod. BepInEx will call this.
     private void Awake()
     {
-        //I'm awake!
         _instance = this;
 
-        //Waiting For Startup
         Waiter = new Waiting();
 
-        //Jotunn Localization
-        var localization = LocalizationManager.Instance.GetLocalization();
+        Jotunn.Entities.CustomLocalization localization = LocalizationManager.Instance.GetLocalization();
 
-        //Register Logger
-        LogManager.Init(PluginId,out _log);
+        LogManager.Init(PluginId, out _log);
             
-        //Initialize Managers
         Initializer.LoadManagers(localization);
 
-        //Register Configuration Settings
         _config = new ConfigRegistry(_instance);
 
         Localizer.Waiter.StatusChanged += InitializeModule;
 
-        //Register Features
+        if (GUIManager.IsHeadless())
+        {
+            _log.Info("Running on dedicated server; bypassing client UI and equipment patches.");
+            return;
+        }
+
         AutoShield = new AutoShield();
         AutoShield.FeatureInitialized = true;
         AutoShield.ResetEvent.OnResetEvent += (_, _) => ResetAutoSheild();
 
         WeaponExclusion = new WeaponExclusion();
 
-        //Patch Harmony
         _harmony = new Harmony(Info.Metadata.GUID);
         _harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-        //Register Mod Splash Screen
         ModSplashManager.Register(new ModSplashDossier(_instance)
         {
             Tagline = "A quality-of-life combat mod that automatically equips and manages shields during combat situations.",
             ShowOnStartup = ConfigRegistry.ShowSplashOnStartup,
             EnableTelemetry = ConfigRegistry.EnableTelemetry,
         });
-
-        //???
-
-        //Profit
     }
 
     private void Start()
     {
-        AutoShield.LoadAssets();
-        WeaponExclusion.LoadAssets();
-    }
-
-    private void Update()
-    {
-        if (!Player.m_localPlayer || !ZNetScene.instance)
+        if (GUIManager.IsHeadless())
             return;
+
+        if (AutoShield != null)
+            AutoShield.LoadAssets();
+
+        if (WeaponExclusion != null)
+            WeaponExclusion.LoadAssets();
     }
 
     private void ResetAutoSheild()
     {
-        AutoShield.ResetAutoShieldOnPlayerAwake();
+        if (AutoShield != null)
+            AutoShield.ResetAutoShieldOnPlayerAwake();
     }
     
     private void OnDestroy()

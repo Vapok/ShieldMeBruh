@@ -1,10 +1,22 @@
-# 2.1.1 - Reset Safety & Dedicated Server Fixes
-* **Dedicated Server Reset Safeguards**:
-  * In `AutoShield.ResetEvent.PerformReset`, added `SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null` bypass, null guards on `m_rightItem` and `m_leftItem`, and wrapped unequip/event calls in defensive try/catch blocks, resolving [SHIELDMEBRUH-2](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-2) and [SHIELDMEBRUH-4](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-4).
-  * In `MoveProtection.cs`, replaced lazy `var` typing with explicit types (`InventoryGrid`, `InventoryGrid.Element`, `ItemDrop.ItemData`).
-* **Library Updates**:
-  * Synchronized `Vapok.Valheim.Common` to `3.19.1015` (resolving config file sharing violation [SHIELDMEBRUH-5](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-5)).
-  * Synchronized `JotunnLib` to `2.30.2`.
+# 2.1.1 - Performance, Server Hardening & Sentry Fixes
+* **Performance Optimizations & Allocation Reduction**:
+  * Implemented `Features/ShieldMeElementData.cs`, attaching a lightweight MonoBehaviour to each `InventoryGrid.Element.m_go` to cache `Image` references for both `ShieldImage` and `ExcludedImage`.
+  * In `AutoShield.GetShield` and `WeaponExclusion.GetExcludedImage`, replaced iterative `transform.GetChild()` and `GetComponent<Image>()` traversals with O(1) cached lookups, eliminating hundreds of native Unity hierarchy calls per frame in `InventoryGrid.UpdateGui`.
+  * Replaced per-call `new DeserializerBuilder().Build()` and `new SerializerBuilder().Build()` allocations in `AutoShield.SaveShieldConfig` and `LoadShieldConfig` with static, thread-safe instances (`_yamlDeserializer`, `_yamlSerializer`).
+  * Removed empty `Update()` lifecycle hook from `ShieldMeBruh.cs` to eliminate unnecessary Unity engine overhead.
+* **Dedicated Server Hardening & Headless Isolation**:
+  * Replaced forbidden `SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null` check with canonical `GUIManager.IsHeadless()`.
+  * In `ShieldMeBruh.Awake` and `Start`, guarded client UI/equipment Harmony patches and embedded asset loading behind `!GUIManager.IsHeadless()`.
+  * In `Player_Patches.cs` (`SetLocalPlayerPatch`), bypassed `AutoShield.ResetEvent.PerformReset` on headless servers and verified `__instance == Player.m_localPlayer`, resolving dedicated server crash [SHIELDMEBRUH-2](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-2).
+* **Multiplayer Isolation**:
+  * In `Humanoid_Patches.cs` (`HumanoidEquipItemPatch` and `HumanoidUnequipItemPatch`), added `player != Player.m_localPlayer` guards to prevent remote players' equipment events from triggering local shield logic.
+  * In `DeathEvent.cs` (`OnDeathEventPatch` and `TombstoneTakeAllEventPatch`), isolated death event handling and tombstone recovery strictly to `Player.m_localPlayer`.
+* **Sentry Defensiveness & Move Protection**:
+  * In `MoveProtection.cs`, added null guards for `__instance`, `fromInventory`, `item`, and `__instance.m_name` prior to accessing `AutoShield`, resolving [SHIELDMEBRUH-3](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-3).
+  * In `InventoryGui_Patches.cs`, hardened `DoCraftingPatch` and `HidePatch` with null safety guards.
+* **Code Modernization & Type Safety**:
+  * Removed all lazy `var` keywords across the codebase in favor of explicit C# types (`InventoryGrid`, `InventoryGrid.Element`, `ItemDrop.ItemData`, `RectTransform`, `Image`, etc.).
+  * Synchronized `JotunnLib` to `2.30.2` and internalized `Vapok.Valheim.Common` `3.19.1015`.
 
 # 2.1.0 - 1-Handed Weapon Exclusion & Red X Badges
 * **Weapon Exclusion Feature Architecture**:
