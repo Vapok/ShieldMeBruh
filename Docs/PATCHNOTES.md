@@ -3,7 +3,7 @@
   * In `AutoShield.ResetEvent.PerformReset`, added `SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null` bypass, null guards on `m_rightItem` and `m_leftItem`, and wrapped unequip/event calls in defensive try/catch blocks, resolving [SHIELDMEBRUH-2](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-2) and [SHIELDMEBRUH-4](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-4).
   * In `MoveProtection.cs`, replaced lazy `var` typing with explicit types (`InventoryGrid`, `InventoryGrid.Element`, `ItemDrop.ItemData`).
 * **Library Updates**:
-  * Synchronized `Vapok.Valheim.Common` to `3.17.1015` (resolving config file sharing violation [SHIELDMEBRUH-5](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-5)).
+  * Synchronized `Vapok.Valheim.Common` to `3.19.1015` (resolving config file sharing violation [SHIELDMEBRUH-5](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-5)).
   * Synchronized `JotunnLib` to `2.30.2`.
 
 # 2.1.0 - 1-Handed Weapon Exclusion & Red X Badges
