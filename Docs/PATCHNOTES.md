@@ -1,3 +1,7 @@
+# 2.1.2 - Inventory Protection & Stability Fix
+* **Move Protection Bounds Checking**:
+  * In `MoveProtection.cs` (`MoveItemToThisPatch.Prefix`), added explicit destination grid boundary checks (`fromPos.x >= __instance.m_width || fromPos.y >= __instance.m_height`) and verified `fromInventory != __instance` before evaluating `AutoShield.ProtectedPositions.Contains(fromPos)`, preventing `IndexOutOfRangeException` when moving items across containers of varying grid dimensions (resolves Sentry issue [SHIELDMEBRUH-8](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-8)).
+
 # 2.1.1 - Performance, Server Hardening & Sentry Fixes
 * **Performance Optimizations & Allocation Reduction**:
   * Implemented `Features/ShieldMeElementData.cs`, attaching a lightweight MonoBehaviour to each `InventoryGrid.Element.m_go` to cache `Image` references for both `ShieldImage` and `ExcludedImage`.

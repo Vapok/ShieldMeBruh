@@ -65,6 +65,21 @@ public static class MoveProtection
                 if (activeGrid == null)
                     return;
 
+                if (fromInventory != __instance)
+                {
+                    ItemDrop.ItemData itemAt = __instance.GetItemAt(x, y);
+                    if (itemAt != null && itemAt == ShieldMeBruh.AutoShield.SelectedShield)
+                    {
+                        ShieldMeBruh.AutoShield.ResetCurrentSheildElement();
+                    }
+                    return;
+                }
+
+                if (x < 0 || x >= __instance.m_width || y < 0 || y >= __instance.m_height ||
+                    item.m_gridPos.x < 0 || item.m_gridPos.x >= __instance.m_width ||
+                    item.m_gridPos.y < 0 || item.m_gridPos.y >= __instance.m_height)
+                    return;
+
                 //Scenario 2:
                 if (item != ShieldMeBruh.AutoShield.SelectedShield)
                 {

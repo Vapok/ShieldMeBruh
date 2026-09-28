@@ -1,12 +1,16 @@
-# 2.1.1 - Performance, Server Hardening & Sentry Fixes
+# 2.1.2 - Inventory Protection & Stability Fix
+* **Inventory Transfer Protection**: Resolved an issue where moving items between different inventory sizes could cause an error when moving items into destination slots that exceed the target inventory dimensions.
+* **General Stability**: Internal stability improvements and exception hardening.
+
+<details>
+<summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
+
+### 2.1.1 - Performance, Server Hardening & Sentry Fixes
 * **Performance Optimizations**: Cached inventory grid badge components, eliminating hundreds of per-frame lookups when browsing inventory.
 * **Dedicated Server Safety**: Ensured client equipment and UI patches are completely bypassed on headless dedicated servers.
 * **Multiplayer Safety**: Isolated shield management strictly to the local player, preventing nearby players' equipment or death events from affecting local shields.
 * **Bug Fixes**: Resolved harmless errors during inventory item moves and game exit routines.
 * **Dependency Updates**: Updated Jotunn to 2.30.2 and internal dependencies for stability.
-
-<details>
-<summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
 
 ### 2.1.0 - 1-Handed Weapon Exclusion & Red X Badges
 * **1-Handed Weapon Exclusion**: Added ability to middle-click any one-handed weapon (such as woodcutting axes) in your inventory to mark it as excluded from automatic shield deployment.
