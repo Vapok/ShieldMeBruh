@@ -76,7 +76,6 @@ public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
         {
             Tagline = "A quality-of-life combat mod that automatically equips and manages shields during combat situations.",
             ShowOnStartup = ConfigRegistry.ShowSplashOnStartup,
-            EnableTelemetry = ConfigRegistry.EnableTelemetry,
         });
     }
 
