@@ -1,9 +1,12 @@
-# 2.1.2 - Inventory Protection & Stability Fix
-* **Inventory Transfer Protection**: Resolved an issue where moving items between different inventory sizes could cause an error when moving items into destination slots that exceed the target inventory dimensions.
-* **General Stability**: Internal stability improvements and exception hardening.
+# 2.1.3 - Compatibility Stability
+* **Compatibility Stability**: Updated dependencies for third party mod compatibilities.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
+
+### 2.1.2 - Inventory Protection & Stability Fix
+* **Inventory Transfer Protection**: Resolved an issue where moving items between different inventory sizes could cause an error when moving items into destination slots that exceed the target inventory dimensions.
+* **General Stability**: Internal stability improvements and exception hardening.
 
 ### 2.1.1 - Performance, Server Hardening & Sentry Fixes
 * **Performance Optimizations**: Cached inventory grid badge components, eliminating hundreds of per-frame lookups when browsing inventory.
