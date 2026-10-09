@@ -1,3 +1,10 @@
+# 2.1.4 - Startup Screen Stability & Dependency Updates
+* **Startup Screen Stability**:
+  * In `Vapok.Valheim.Common` 3.1017.1, resolved `NullReferenceException` in `ModSplashManager` during startup notice display and component destruction ([SHIELDMEBRUH-9](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-9)).
+* **Dependency & Engine Alignment**:
+  * Updated internalized dependency `Vapok.Valheim.Common` to 3.1017.1.
+  * Aligned game assembly references to Valheim 1.0.17.
+
 # 2.1.3 - Compatibility Stability
 * **Compatibility Stability**: Updated dependencies for third party mod compatibilities.
 
