@@ -16,7 +16,7 @@
         <LangVersion>latest</LangVersion>
         <ReferencesRoot Condition="'$(ReferencesRoot)' == ''">/home/vapok/Modding/References</ReferencesRoot>
         <VALHEIM_INSTALL>$(ReferencesRoot)\Valheim\1.0.17</VALHEIM_INSTALL>
-        <BEPINEX_PATH>$(ReferencesRoot)\BepInEx\5.4.2350\BepInEx</BEPINEX_PATH>
+        <BEPINEX_PATH>$(ReferencesRoot)\BepInEx\5.4.2351\BepInEx</BEPINEX_PATH>
         <ReleaseRoot>/home/vapok/Modding/Releases</ReleaseRoot>
         <ModRoot>/home/vapok/Modding/Valheim/</ModRoot>
     </PropertyGroup>
@@ -45,7 +45,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>$(ReferencesRoot)\BepInEx\5.4.2350\BepInEx\core\0Harmony.dll</HintPath>
+            <HintPath>$(ReferencesRoot)\BepInEx\5.4.2351\BepInEx\core\0Harmony.dll</HintPath>
         </Reference>
         <Reference Include="assembly_guiutils">
             <HintPath>$(ReferencesRoot)\Valheim\1.0.17\assembly_guiutils_publicized.dll</HintPath>
@@ -60,10 +60,10 @@
             <HintPath>$(ReferencesRoot)\Valheim\1.0.17\assembly_valheim_publicized.dll</HintPath>
         </Reference>
         <Reference Include="BepInEx">
-            <HintPath>$(ReferencesRoot)\BepInEx\5.4.2350\BepInEx\core\BepInEx.dll</HintPath>
+            <HintPath>$(ReferencesRoot)\BepInEx\5.4.2351\BepInEx\core\BepInEx.dll</HintPath>
         </Reference>
         <Reference Include="BepInEx.Harmony">
-            <HintPath>$(ReferencesRoot)\BepInEx\5.4.2350\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+            <HintPath>$(ReferencesRoot)\BepInEx\5.4.2351\BepInEx\core\BepInEx.Harmony.dll</HintPath>
         </Reference>
         <Reference Include="Jotunn, Version=2.30.2.0, Culture=neutral, processorArchitecture=MSIL">
             <HintPath>..\packages\JotunnLib.2.30.2\lib\net462\Jotunn.dll</HintPath>
