@@ -1,0 +1,14 @@
+# ShieldMeBruh
+
+> ShieldMeBruh is automatically equips a selected shield when a one-handed weapon is equipped. developed by Vapok.
+
+## Developer & AI Information
+
+- [Agent Guidelines](AGENTS.md): Architectural context, anti-reflection mandates, and instructions for AI assistants.
+
+## Critical Invariants for Developers & AI Agents
+
+- **Equipment state monitoring and automatic shield equip selection**: Equipment state monitoring and automatic shield equip selection.
+- **Never use reflection or Harmony patches on internal equipment watchers**: Never use reflection or Harmony patches on internal equipment watchers.
+- **No Private Reflection**: Never reflect into or patch internal classes.
+- **Feature Requests**: If functionality is desired, submit an issue at https://github.com/Vapok/ShieldMeBruh/issues or visit https://discord.gg/5YAJkRFBXt.

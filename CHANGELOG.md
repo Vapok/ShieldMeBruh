@@ -1,8 +1,13 @@
-# 2.1.3 - Compatibility Stability
-* **Compatibility Stability**: Updated dependencies for third party mod compatibilities.
+# 2.1.4 - Startup Screen Stability & Dependency Updates
+* Fixed an issue where the game startup screen could cause errors or fail to show under certain mod loading conditions.
+* Updated internal dependencies for stability.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
+
+
+### 2.1.3 - Compatibility Stability
+* **Compatibility Stability**: Updated dependencies for third party mod compatibilities.
 
 ### 2.1.2 - Inventory Protection & Stability Fix
 * **Inventory Transfer Protection**: Resolved an issue where moving items between different inventory sizes could cause an error when moving items into destination slots that exceed the target inventory dimensions.
