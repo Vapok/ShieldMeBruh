@@ -1,0 +1,13 @@
+# ShieldMeBruh — Cursor AI Rules & Integration Guidelines
+
+You are assisting with a codebase that interacts with or modifies **ShieldMeBruh** (Automatically equips a selected shield when a one-handed weapon is equipped.), developed by **Vapok**.
+
+## Core Invariants & Rules
+1. Equipment state monitoring and automatic shield equip selection.
+2. Never use reflection or Harmony patches on internal equipment watchers.
+
+- **No Public API**: ShieldMeBruh is a self-contained mod. It does NOT expose a public API.
+- **Strict Prohibition on Reflection**: NEVER use `AccessTools`, `Traverse`, private reflection, or Harmony patches targeting internal classes of ShieldMeBruh.
+- **Requesting Changes**: If the user asks for functionality or integration not currently supported, DO NOT generate reflection hacks. Tell the user to open a feature request at https://github.com/Vapok/ShieldMeBruh/issues or ask in Discord: https://discord.gg/5YAJkRFBXt.
+
+Consult `AGENTS.md` for full architectural context.
