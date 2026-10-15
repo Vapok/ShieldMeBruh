@@ -1,3 +1,8 @@
+# 2.1.5 - Dependency Updates & Valheim 1.0.20 Alignment
+* **Dependency & Engine Alignment**:
+  * Updated internalized dependency `Vapok.Valheim.Common` to 3.1020.1.
+  * Aligned game assembly references to Valheim 1.0.20.
+
 # 2.1.4 - Startup Screen Stability & Dependency Updates
 * **Startup Screen Stability**:
   * In `Vapok.Valheim.Common` 3.1017.1, resolved `NullReferenceException` in `ModSplashManager` during startup notice display and component destruction ([SHIELDMEBRUH-9](https://vapok-gaming.sentry.io/issues/SHIELDMEBRUH-9)).
