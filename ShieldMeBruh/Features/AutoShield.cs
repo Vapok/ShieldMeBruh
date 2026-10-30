@@ -65,7 +65,10 @@ public class AutoShield
                 null,
                 new ConfigurationManagerAttributes { Order = 1 }),ref EnableAutoShield);
 
-        EnableAutoShield.SettingChanged += (_, _) => SetEnabledStatus();
+        if (EnableAutoShield != null)
+        {
+            EnableAutoShield.SettingChanged += (_, _) => SetEnabledStatus();
+        }
 
         ConfigSyncBase.UnsyncedConfig("Local Config", "Enable Auto Unequip", true,
             new ConfigDescription(
@@ -228,13 +231,16 @@ public class AutoShield
 
     public void SetShieldStatus(bool statusSetTo)
     {
+        if (EnableAutoShield == null)
+            return;
+
         FeatureInitialized = EnableAutoShield.Value;
         
         if (EnableAutoShield.Value)
         {
             if (statusSetTo)
             {
-                if (Player.m_localPlayer != null && CurrentElement != null && SelectedShield != null)
+                if (Player.m_localPlayer != null && Player.m_localPlayer.GetInventory() != null && CurrentElement != null && SelectedShield != null)
                 {
                     ItemDrop.ItemData itemAt = Player.m_localPlayer.GetInventory().GetItemAt(CurrentElement.Position.x, CurrentElement.Position.y);
 
@@ -244,34 +250,54 @@ public class AutoShield
             }
             if (CurrentElement != null)
             {
-                GetShield(CurrentElement).enabled = statusSetTo;
+                Image shieldImg = GetShield(CurrentElement);
+                if (shieldImg != null)
+                    shieldImg.enabled = statusSetTo;
             }
         }
     }
     
     public void SetEnabledStatus()
     {
+        if (EnableAutoShield == null)
+            return;
+
         FeatureInitialized = EnableAutoShield.Value;
         
         if (EnableAutoShield.Value)
         {
             if (CurrentElement != null)
             {
-                GetShield(CurrentElement).enabled = true;
+                Image shieldImg = GetShield(CurrentElement);
+                if (shieldImg != null)
+                    shieldImg.enabled = true;
             }
             return;
         }
 
         if (CurrentElement != null)
-            GetShield(CurrentElement).enabled = false;
+        {
+            Image shieldImg = GetShield(CurrentElement);
+            if (shieldImg != null)
+                shieldImg.enabled = false;
+        }
     }
 
     public void ResetCurrentSheildElement(InventoryElement selectedElement = null)
     {
-        if (CurrentElement != null && selectedElement == null) GetShield(CurrentElement).enabled = false;
+        if (CurrentElement != null && selectedElement == null)
+        {
+            Image shieldImg = GetShield(CurrentElement);
+            if (shieldImg != null)
+                shieldImg.enabled = false;
+        }
 
         if (selectedElement != null)
-            GetShield(selectedElement).enabled = false;
+        {
+            Image selectedShieldImg = GetShield(selectedElement);
+            if (selectedShieldImg != null)
+                selectedShieldImg.enabled = false;
+        }
 
         CurrentElement = null;
         SelectedShield = null;
@@ -285,10 +311,12 @@ public class AutoShield
 
     public void ApplyShieldToElement(InventoryElement selectedElement, ItemDrop.ItemData itemAt, bool allowReset = false)
     {
-        if (itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
+        if (selectedElement == null || itemAt == null || itemAt.m_shared == null || itemAt.m_shared.m_itemType != ItemDrop.ItemData.ItemType.Shield)
             return;
         
         Image img = GetShield(selectedElement);
+        if (img == null)
+            return;
 
         img.enabled = true;
 
@@ -302,7 +330,9 @@ public class AutoShield
             if ((CurrentElement.Position == selectedElement.Position && allowReset) || selectedElement.Position.x < 0 ||
                 selectedElement.Position.y < 0)
             {
-                GetShield(CurrentElement).enabled = false;
+                Image currentShieldImg = GetShield(CurrentElement);
+                if (currentShieldImg != null)
+                    currentShieldImg.enabled = false;
                 CurrentElement = null;
                 SelectedShield = null;
             }
@@ -327,9 +357,8 @@ public class AutoShield
 
     private Image GetShield(InventoryElement element)
     {
-        if (element == null || element.gameObject == null)
+        if (element == null || element.gameObject == null || element.m_icon == null || element.m_noteleport == null)
         {
-            ShieldMeBruh.Log.Error("Element gameObject is null");
             return null;
         }
 

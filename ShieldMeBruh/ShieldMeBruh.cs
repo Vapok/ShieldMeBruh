@@ -20,12 +20,12 @@ namespace ShieldMeBruh;
 [BepInPlugin(_pluginId, _displayName, _version)]
 [BepInDependency(Jotunn.Main.ModGuid)]
 [BepInDependency("com.ValheimModding.YamlDotNetDetector")]
-public class ShieldMeBruh : BaseUnityPlugin, IPluginInfo
+public class ShieldMeBruh : VapokModBase, IPluginInfo
 {
     //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "2.1.5";
+    private const string _version = "2.1.6";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 

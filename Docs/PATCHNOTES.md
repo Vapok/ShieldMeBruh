@@ -1,3 +1,11 @@
+# 2.1.6 - Valheim 1.0.21 Update & Auto-Shield Fixes
+* **AutoShield & Equip Patch Hardening (`SHIELDMEBRUH-A`, `SHIELDMEBRUH-C`, `SHIELDMEBRUH-D`, `SHIELDMEBRUH-E`)**:
+  * Added null guards on `EnableAutoShield`, `EnableAutoUnequip`, `GetShield` UI images, and `ItemData.m_shared` across `AutoShield` and `Humanoid_Patches`.
+* **Dependency & Engine Alignment**:
+  * Inherited `VapokModBase` to declare `[BepInIncompatibility("IAmOnTheInternetAndItIsScary.NoPopUpsInMyValheim")]`.
+  * Updated internalized dependency `Vapok.Valheim.Common` to 3.1021.2.
+  * Aligned game assembly references to Valheim 1.0.21 and BepInEx 5.4.2360.
+
 # 2.1.5 - Dependency Updates & Valheim 1.0.20 Alignment
 * **Dependency & Engine Alignment**:
   * Updated internalized dependency `Vapok.Valheim.Common` to 3.1020.1.
