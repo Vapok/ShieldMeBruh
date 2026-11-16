@@ -1,10 +1,16 @@
-# 2.1.5 - Dependency Updates & Valheim 1.0.20 Alignment
-* **Compatibility**: Updated internal dependencies for stability and Valheim 1.0.20 compatibility.
+# 2.1.6 - Valheim 1.0.21 Update & Auto-Shield Fixes
+* **Auto-Shield Stability**: Fixed rare errors when equipping or unequipping weapons with custom inventory UI mods.
+* **Documentation**: Added AI transparency audit disclosure to README.
+* **Compatibility**: Updated dependencies for Valheim 1.0.21 and BepInEx 5.4.2360.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
 
 
+
+
+### 2.1.5 - Dependency Updates & Valheim 1.0.20 Alignment
+* **Compatibility**: Updated internal dependencies for stability and Valheim 1.0.20 compatibility.
 
 ### 2.1.4 - Startup Screen Stability & Dependency Updates
 * Fixed an issue where the game startup screen could cause errors or fail to show under certain mod loading conditions.
