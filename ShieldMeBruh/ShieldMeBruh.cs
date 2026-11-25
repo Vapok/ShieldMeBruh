@@ -25,7 +25,7 @@ public class ShieldMeBruh : VapokModBase, IPluginInfo
     //Module Constants Texture2D
     private const string _pluginId = "vapok.mods.shieldmebruh";
     private const string _displayName = "Shield Me Bruh!";
-    private const string _version = "2.1.6";
+    private const string _version = "2.1.7";
     public static bool ValheimAwake;
     public static Waiting Waiter;
 
